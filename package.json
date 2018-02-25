@@ -6,5 +6,12 @@
   "repository": "y",
   "author": "y",
   "license": "y",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "three": "^0.90.0",
+    "webpack": "^4.0.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^2.0.9"
+  }
 }
