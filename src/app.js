@@ -81,9 +81,15 @@ const srcModelsDefs = [
     objFilePath: "../assets/Building_Restaurant.obj",
     imgFilePath: "../assets/Building_Restaurant.png",
     objScale: [0.01, 0.01, 0.01],
-    position: [10, 0, 8]
+    position: [10, 2.1, 8]
   }
 ];
+
+var size = 50;
+var divisions = 50;
+
+var gridHelper = new THREE.GridHelper(size, divisions);
+scene.add(gridHelper);
 
 var loadOriginalModels = () => {
   const loader = new OBJLoader();
