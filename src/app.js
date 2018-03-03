@@ -6,30 +6,40 @@ var scene = new THREE.Scene();
 
 var aspect = window.innerWidth / window.innerHeight;
 var d = 20;
-var camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
+var camera = new THREE.OrthographicCamera(
+  -d * aspect,
+  d * aspect,
+  d,
+  -d,
+  1,
+  1000
+);
 
-camera.position.set( 20, 15, 20 ); // all components equal
-camera.lookAt( scene.position ); // or the origin
-
+camera.position.set(20, 15, 20); // all components equal
+camera.lookAt(scene.position); // or the origin
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x888888);
 document.body.appendChild(renderer.domElement);
 
-var light = new THREE.PointLight( 0xffffff, 10, 100 );
-light.position.set( 50, 50, 50 );
-scene.add( light );
+var light = new THREE.PointLight(0xffffff, 10, 100);
+light.position.set(50, 50, 50);
+scene.add(light);
 
 // var geometry = new THREE.BoxGeometry(1, 10, 1);
 
 var material = new THREE.MeshStandardMaterial();
-material.map = new THREE.TextureLoader().load( "../assets/Building_Super_Market.png" );
+material.map = new THREE.TextureLoader().load(
+  "../assets/Building_Super_Market.png"
+);
 
 // var cube = new THREE.Mesh(geometry, material);
 // scene.add(cube);
 
-var texture = new THREE.TextureLoader().load( "../assets/Building_Super_Market.png" );
+var texture = new THREE.TextureLoader().load(
+  "../assets/Building_Super_Market.png"
+);
 
 // instantiate a loader
 const loader = new OBJLoader();
@@ -41,8 +51,8 @@ loader.load(
   // called when resource is loaded
   function(object) {
     object.scale.set(0.01, 0.01, 0.01);
-    object.traverse((child) => {
-      if ( child instanceof THREE.Mesh ) {
+    object.traverse(child => {
+      if (child instanceof THREE.Mesh) {
         child.material = material;
       }
     });
