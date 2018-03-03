@@ -27,47 +27,49 @@ var light = new THREE.PointLight(0xffffff, 10, 100);
 light.position.set(50, 50, 50);
 scene.add(light);
 
-// var geometry = new THREE.BoxGeometry(1, 10, 1);
-
-var material = new THREE.MeshStandardMaterial();
-material.map = new THREE.TextureLoader().load(
-  "../assets/Building_Super_Market.png"
-);
-
-// var cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
-
-var texture = new THREE.TextureLoader().load(
-  "../assets/Building_Super_Market.png"
-);
-
-// instantiate a loader
-const loader = new OBJLoader();
-
-// load a resource
-loader.load(
-  // resource URL
-  "../assets/Building_Super_Market.obj",
-  // called when resource is loaded
-  function(object) {
-    object.scale.set(0.01, 0.01, 0.01);
-    object.traverse(child => {
-      if (child instanceof THREE.Mesh) {
-        child.material = material;
-      }
-    });
-
-    scene.add(object);
-  },
-  // called when loading is in progresses
-  function(xhr) {
-    console.log(xhr.loaded / xhr.total * 100 + "% loaded");
-  },
-  // called when loading has errors
-  function(error) {
-    console.log("An error happened");
+let originalModels = {};
+const srcModelsDefs = [
+  {
+    objFilePath: "../assets/Building_Super_Market.obj",
+    imgFilePath: "../assets/Building_Super_Market.png",
+    objScale: [0.01, 0.01, 0.01],
+    position: [10, 0, 10]
   }
-);
+];
+
+var loadOriginalModels = () => {
+  const loader = new OBJLoader();
+
+  srcModelsDefs.map(modelDef => {
+    const material = new THREE.MeshStandardMaterial();
+    material.map = new THREE.TextureLoader().load(modelDef.imgFilePath);
+
+    loader.load(
+      modelDef.objFilePath,
+      function(object) {
+        object.scale.set(...modelDef.objScale);
+        object.traverse(child => {
+          if (child instanceof THREE.Mesh) {
+            child.material = material;
+          }
+        });
+
+        // scene.add(object);
+        var newObject = object.clone();
+        newObject.position.set(...modelDef.position);
+        scene.add(newObject);
+      },
+      function(xhr) {
+        console.log(xhr.loaded / xhr.total * 100 + "% loaded");
+      },
+      function(error) {
+        console.log("An error happened");
+      }
+    );
+  });
+};
+
+loadOriginalModels();
 
 camera.position.z = 10;
 
