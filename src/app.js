@@ -8,8 +8,8 @@ const scene = new THREE.Scene();
 // CAMERA
 const aspect = window.innerWidth / window.innerHeight;
 const d = 20;
-const offsetX = -18;
-const offsetY = -5;
+const offsetX = 0;
+const offsetY = 0;
 const camera = new THREE.OrthographicCamera(
   -d * aspect + offsetX,
   d * aspect + offsetX,
@@ -48,13 +48,14 @@ const material = new THREE.MeshBasicMaterial({
 });
 const plane = new THREE.Mesh(geometry, material);
 scene.add(plane);
-plane.rotation.x += 1.5708;
+plane.rotation.x = 1.5708;
+plane.position.y = -0.1;
 
 // LOADING MODELS
-const loadOriginalModels = () => {
-  const loader = new OBJLoader();
+let originalModels = {};
 
-  srcModelsDefs.map(modelDef => {
+const loadModel = (loader, modelDef) => {
+  return new Promise(function(resolve, reject) {
     const material = new THREE.MeshStandardMaterial();
     material.map = new THREE.TextureLoader().load(modelDef.imgFilePath);
 
@@ -67,25 +68,49 @@ const loadOriginalModels = () => {
             child.material = material;
           }
         });
-
-        // scene.add(object);
-        const newObject = object.clone();
-        newObject.position.set(...modelDef.position);
-        scene.add(newObject);
+        originalModels[modelDef.name] = object;
+        resolve();
       },
       function(xhr) {
         console.log(xhr.loaded / xhr.total * 100 + "% loaded");
       },
       function(error) {
         console.log("An error happened");
+        reject();
       }
     );
   });
 };
 
-loadOriginalModels();
+const loadOriginalModels = () => {
+  const loader = new OBJLoader();
 
-camera.position.z = 10;
+  return new Promise(function(resolve, reject) {
+    let load_promises = srcModelsDefs.map(modelDef =>
+      loadModel(loader, modelDef)
+    );
+
+    Promise.all(load_promises).then(resolve);
+  });
+};
+
+// BUILD STREET GRID
+const buildStreetGrid = () => {
+  for (let x = 0; x < 10; x++) {
+    for (let z = 0; z < 10; z++) {
+      // console.log(originalModels);
+      // console.log(originalModels.pizza);
+      const obj = originalModels["roadIntersection"].clone();
+      obj.position.set(x * 10, 0, z * 10);
+      scene.add(obj);
+    }
+  }
+};
+
+loadOriginalModels().then(function() {
+  console.log("PROMISES FULFILLED");
+  buildStreetGrid();
+});
 
 const animate = function() {
   requestAnimationFrame(animate);
