@@ -7,7 +7,7 @@ const scene = new THREE.Scene();
 
 // CAMERA
 const aspect = window.innerWidth / window.innerHeight;
-const d = 20;
+const d = 30;
 const offsetX = 0;
 const offsetY = 0;
 const camera = new THREE.OrthographicCamera(
@@ -96,13 +96,31 @@ const loadOriginalModels = () => {
 
 // BUILD STREET GRID
 const buildStreetGrid = () => {
-  for (let x = 0; x < 10; x++) {
-    for (let z = 0; z < 10; z++) {
-      // console.log(originalModels);
-      // console.log(originalModels.pizza);
-      const obj = originalModels["roadIntersection"].clone();
-      obj.position.set(x * 10, 0, z * 10);
-      scene.add(obj);
+  const multiplier = 23.4;
+
+  for (let x = -5; x < 5; x++) {
+    for (let z = -5; z < 5; z++) {
+      const intersection = originalModels["roadIntersection"].clone();
+      intersection.position.set(x * multiplier, 0, z * multiplier);
+      scene.add(intersection);
+
+      const lane = originalModels["roadLane1"].clone();
+      lane.position.set(x * multiplier + 0.2, 0, z * multiplier + 7.6);
+      scene.add(lane);
+
+      const laneRotated = originalModels["roadLane1"].clone();
+      laneRotated.rotation.y += 1.5708;
+      laneRotated.position.set(x * multiplier + 6.7, 0, z * multiplier - 0.1);
+      scene.add(laneRotated);
+
+      const lane2 = originalModels["roadLane3"].clone();
+      lane2.position.set(x * multiplier + 0.7, 0, z * multiplier + 15);
+      scene.add(lane2);
+
+      const laneRoated2 = originalModels["roadLane3"].clone();
+      laneRoated2.rotation.y += 1.5708;
+      laneRoated2.position.set(x * multiplier + 14.1, 0, z * multiplier + -0.6);
+      scene.add(laneRoated2);
     }
   }
 };
