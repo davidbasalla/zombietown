@@ -1,6 +1,7 @@
 export default [
   {
     name: "supermarket",
+    type: "building",
     objFilePath: "../assets/Building_Super_Market.obj",
     imgFilePath: "../assets/Building_Super_Market.png",
     scale: [0.01, 0.01, 0.01],
@@ -8,6 +9,7 @@ export default [
   },
   {
     name: "factory",
+    type: "building",
     objFilePath: "../assets/Building_Factory.obj",
     imgFilePath: "../assets/Building_Factory.png",
     scale: [0.01, 0.01, 0.01],
@@ -15,6 +17,7 @@ export default [
   },
   {
     name: "gasStation",
+    type: "building",
     objFilePath: "../assets/Building_Gas_Station.obj",
     imgFilePath: "../assets/Building_Gas_Station.png",
     scale: [0.01, 0.01, 0.01],
@@ -22,6 +25,7 @@ export default [
   },
   {
     name: "tallResidential1",
+    type: "building",
     objFilePath: "../assets/Building_Sky_big_color01.obj",
     imgFilePath: "../assets/Building_Sky_big_color01.png",
     scale: [0.01, 0.01, 0.01],
@@ -29,6 +33,7 @@ export default [
   },
   {
     name: "tallResidential2",
+    type: "building",
     objFilePath: "../assets/Building_Sky_big_color01.obj",
     imgFilePath: "../assets/Building_Sky_big_color02.png",
     scale: [0.01, 0.01, 0.01],
@@ -36,6 +41,7 @@ export default [
   },
   {
     name: "smallResidential1",
+    type: "building",
     objFilePath: "../assets/Building_Sky_small_color01.obj",
     imgFilePath: "../assets/Building_Sky_small_color01.png",
     scale: [0.01, 0.01, 0.01],
@@ -43,6 +49,7 @@ export default [
   },
   {
     name: "pizza",
+    type: "building",
     objFilePath: "../assets/Building_Pizza.obj",
     imgFilePath: "../assets/Building_Pizza.png",
     scale: [0.01, 0.01, 0.01],
@@ -50,6 +57,7 @@ export default [
   },
   {
     name: "fastFood",
+    type: "building",
     objFilePath: "../assets/Building_Fast_Food.obj",
     imgFilePath: "../assets/Building_Fast_Food.png",
     scale: [0.01, 0.01, 0.01],
@@ -57,13 +65,23 @@ export default [
   },
   {
     name: "restaurant",
+    type: "building",
     objFilePath: "../assets/Building_Restaurant.obj",
     imgFilePath: "../assets/Building_Restaurant.png",
     scale: [0.01, 0.01, 0.01],
-    position: [10, 2, 8]
+    offset: [10, 2, 8]
+  },
+  {
+    name: "stadium",
+    type: "building",
+    objFilePath: "../assets/Building_Stadium.obj",
+    imgFilePath: "../assets/Building_Stadium.png",
+    scale: [0.01, 0.01, 0.01],
+    offset: [10, 2, 8]
   },
   {
     name: "roadIntersection",
+    type: "road",
     objFilePath: "../assets/Road_Intersection_01.obj",
     imgFilePath: "../assets/Road.png",
     scale: [0.01, 0.01, 0.01],
@@ -71,6 +89,7 @@ export default [
   },
   {
     name: "roadLane1",
+    type: "road",
     objFilePath: "../assets/Road_Lane_01.obj",
     imgFilePath: "../assets/Road.png",
     scale: [0.01, 0.01, 0.01],
@@ -78,6 +97,7 @@ export default [
   },
   {
     name: "roadLane3",
+    type: "road",
     objFilePath: "../assets/Road_Lane_03.obj",
     imgFilePath: "../assets/Road.png",
     scale: [0.01, 0.01, 0.01],
