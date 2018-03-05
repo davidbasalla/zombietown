@@ -102,5 +102,21 @@ export default [
     imgFilePath: "../assets/Road.png",
     scale: [0.01, 0.01, 0.01],
     position: [8.5, 0.1, 26]
+  },
+  {
+    name: "treeBig",
+    type: "building",
+    objFilePath: "../assets/Natures_Big_Tree.obj",
+    imgFilePath: "../assets/Natures.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [8.5, 0.1, 26]
+  },
+  {
+    name: "drugstore",
+    type: "building",
+    objFilePath: "../assets/Building_Drug_Store.obj",
+    imgFilePath: "../assets/Building_Drug_Store.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [0, 0, -3]
   }
 ];

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OBJLoader } from "three-obj-loader-es6";
 import { TrackballControls } from "three-trackballcontrols";
 import srcModelsDefs from "./buildings.js";
+import gridTiles from "./gridTiles";
 
 const scene = new THREE.Scene();
 
@@ -52,9 +53,10 @@ plane.rotation.x = 1.5708;
 plane.position.y = -0.1;
 
 // LOADING MODELS
-let originalModels = {};
-originalModels["road"] = {};
-originalModels["building"] = {};
+let originalModels = {
+  road: {},
+  building: {}
+};
 
 const loadModel = (loader, modelDef) => {
   return new Promise(function(resolve, reject) {
@@ -120,31 +122,38 @@ const buildStreetGrid = () => {
       lane2.position.set(x * multiplier + 0.7, 0, z * multiplier + 15);
       scene.add(lane2);
 
-      const laneRoated2 = roadModels["roadLane3"].clone();
-      laneRoated2.rotation.y += 1.5708;
-      laneRoated2.position.set(x * multiplier + 14.1, 0, z * multiplier + -0.6);
-      scene.add(laneRoated2);
+      const laneRotated2 = roadModels["roadLane3"].clone();
+      laneRotated2.rotation.y += 1.5708;
+      laneRotated2.position.set(
+        x * multiplier + 14.1,
+        0,
+        z * multiplier + -0.6
+      );
+      scene.add(laneRotated2);
     }
   }
 };
 
-const placeBuildings = () => {
+const createTile = (gridTileName, x, z) => {
+  // const rotations = [0, 1.5708, 3.14159, 4.71239];
+
+  gridTiles[gridTileName].assets.forEach(asset => {
+    const obj = originalModels["building"][asset.name].clone();
+    obj.position.set(x + asset.offset[0], 0, z + asset.offset[2]);
+    // obj.rotation.y = rotations[Math.floor(Math.random() * 4)];
+    scene.add(obj);
+  });
+};
+
+const placeTiles = () => {
   const multiplier = 23.4;
-  const buildingModels = originalModels["building"];
-  const keys = Object.keys(buildingModels);
+  const keys = Object.keys(gridTiles);
 
   for (let x = -5; x < 5; x++) {
     for (let z = -5; z < 5; z++) {
       // pick a random building
       const randomIndex = Math.floor(Math.random() * keys.length);
-
-      const obj = buildingModels[keys[randomIndex]].clone();
-      obj.position.set(
-        x * multiplier + multiplier / 2 - 2,
-        0,
-        z * multiplier + multiplier / 2 + 4
-      );
-      scene.add(obj);
+      createTile(keys[randomIndex], x * multiplier, z * multiplier);
     }
   }
 };
@@ -152,7 +161,7 @@ const placeBuildings = () => {
 loadOriginalModels().then(function() {
   console.log("PROMISES FULFILLED");
   buildStreetGrid();
-  placeBuildings();
+  placeTiles();
 });
 
 const animate = function() {
