@@ -1,5 +1,50 @@
 export default [
   {
+    name: "smallResidential",
+    assets: [
+      {
+        name: "smallResidential1",
+        offset: [12, 0, -13]
+      },
+      {
+        name: "house1",
+        offset: [7, 0, -9]
+      },
+      {
+        name: "house2",
+        offset: [13, 0, -17]
+      },
+      {
+        name: "house3",
+        offset: [15, 0, -9]
+      },
+      {
+        name: "treeBig",
+        offset: [5, 0, -4]
+      },
+      {
+        name: "treeBig",
+        offset: [8, 0, -4]
+      },
+      {
+        name: "treeBig",
+        offset: [11, 0, -4]
+      },
+      {
+        name: "treeBig",
+        offset: [14, 0, -4]
+      },
+      {
+        name: "treeBig",
+        offset: [17, 0, -4]
+      },
+      {
+        name: "treeBig",
+        offset: [17, 0, -14]
+      }
+    ]
+  },
+  {
     name: "tallResidential",
     assets: [
       {
@@ -80,6 +125,63 @@ export default [
       {
         name: "treeBig",
         offset: [17, 0, -6]
+      }
+    ]
+  },
+  {
+    name: "gasStation",
+    assets: [
+      {
+        name: "gasStation",
+        offset: [14, 0, -11]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -6]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -8]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -10]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -12]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -14]
+      },
+      {
+        name: "treeFir",
+        offset: [5.5, 0, -16]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -6]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -8]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -10]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -12]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -14]
+      },
+      {
+        name: "treeFir",
+        offset: [17, 0, -16]
       }
     ]
   }

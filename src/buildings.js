@@ -112,11 +112,43 @@ export default [
     position: [8.5, 0.1, 26]
   },
   {
+    name: "treeFir",
+    type: "building",
+    objFilePath: "../assets/Natures_Fir_Tree.obj",
+    imgFilePath: "../assets/Natures.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [8.5, 0.1, 26]
+  },
+  {
     name: "drugstore",
     type: "building",
     objFilePath: "../assets/Building_Drug_Store.obj",
     imgFilePath: "../assets/Building_Drug_Store.png",
     scale: [0.01, 0.01, 0.01],
     position: [0, 0, -3]
+  },
+  {
+    name: "house1",
+    type: "building",
+    objFilePath: "../assets/Building_House_01_color01.obj",
+    imgFilePath: "../assets/Building_House_01_color02.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [8, 0, -11]
+  },
+  {
+    name: "house2",
+    type: "building",
+    objFilePath: "../assets/Building_House_02_color01.obj",
+    imgFilePath: "../assets/Building_House_02_color02.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [8, 0, -11]
+  },
+  {
+    name: "house3",
+    type: "building",
+    objFilePath: "../assets/Building_House_03_color01.obj",
+    imgFilePath: "../assets/Building_House_03_color02.png",
+    scale: [0.01, 0.01, 0.01],
+    position: [8, 0, -11]
   }
 ];
