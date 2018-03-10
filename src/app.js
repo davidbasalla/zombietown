@@ -139,7 +139,15 @@ const createTile = (gridTileName, x, z) => {
 
   gridTiles[gridTileName].assets.forEach(asset => {
     const obj = originalModels["building"][asset.name].clone();
-    obj.position.set(x + asset.offset[0], 0, z + asset.offset[2]);
+
+    asset.scale &&
+      obj.scale.set(asset.scale[0], asset.scale[1], asset.scale[2]);
+
+    obj.position.set(
+      x + asset.offset[0],
+      0 + asset.offset[1],
+      z + asset.offset[2]
+    );
     // obj.rotation.y = rotations[Math.floor(Math.random() * 4)];
     scene.add(obj);
   });
