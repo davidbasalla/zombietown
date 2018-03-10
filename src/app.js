@@ -76,6 +76,7 @@ let originalModels = {
   road: {},
   building: {}
 };
+let createdTiles = [];
 
 const loadModel = (loader, modelDef) => {
   return new Promise(function(resolve, reject) {
@@ -156,9 +157,30 @@ const buildStreetGrid = () => {
   }
 };
 
+const createSelectableTile = (x, z) => {
+  // CREATE SELECTABLE TILE
+  const geometry = new THREE.PlaneGeometry(19, 19, 32);
+  const material = new THREE.MeshStandardMaterial({
+    color: Math.random() * 0xffffff,
+    opacity: 0.0,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  const tile = new THREE.Mesh(geometry, material);
+  tile.castShadow = false;
+  tile.receiveShadow = false;
+  tile.rotation.x = 1.5708;
+  tile.position.set(x + 11, 0.25, z - 11);
+  scene.add(tile);
+
+  return tile;
+};
+
 const createTile = (gridTileName, x, z) => {
   // const rotations = [0, 1.5708, 3.14159, 4.71239];
 
+  let assets = [];
   gridTiles[gridTileName].assets.forEach(asset => {
     const obj = originalModels["building"][asset.name].clone();
 
@@ -172,7 +194,9 @@ const createTile = (gridTileName, x, z) => {
     );
     // obj.rotation.y = rotations[Math.floor(Math.random() * 4)];
     scene.add(obj);
+    assets.push(obj);
   });
+  return assets;
 };
 
 const placeTiles = () => {
@@ -181,9 +205,15 @@ const placeTiles = () => {
 
   for (let x = -5; x < 5; x++) {
     for (let z = -5; z < 5; z++) {
-      // pick a random building
+      // pick a random tile
       const randomIndex = Math.floor(Math.random() * keys.length);
-      createTile(keys[randomIndex], x * multiplier, z * multiplier);
+      const tileName = keys[randomIndex];
+
+      createdTiles.push({
+        name: gridTiles[tileName].name,
+        tile: createSelectableTile(x * multiplier, z * multiplier),
+        assets: createTile(tileName, x * multiplier, z * multiplier)
+      });
     }
   }
 };
@@ -193,6 +223,27 @@ loadOriginalModels().then(function() {
   buildStreetGrid();
   placeTiles();
 });
+
+document.addEventListener("mousedown", onDocumentMouseDown);
+
+function onDocumentMouseDown(event) {
+  event.preventDefault();
+  const mouse3D = new THREE.Vector3(
+    event.clientX / window.innerWidth * 2 - 1,
+    -(event.clientY / window.innerHeight) * 2 + 1,
+    0.5
+  );
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse3D, camera);
+
+  const intersects = raycaster.intersectObjects(createdTiles.map(x => x.tile));
+
+  if (intersects.length > 0) {
+    intersects[0].object.material.color.setHex(Math.random() * 0xffffff);
+    const gridTile = createdTiles.find(x => x.tile == intersects[0].object);
+    console.log("Selected " + gridTile.name);
+  }
+}
 
 const animate = function() {
   requestAnimationFrame(animate);
