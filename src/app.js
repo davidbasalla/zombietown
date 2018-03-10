@@ -27,27 +27,46 @@ camera.lookAt(scene.position);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x888888);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap; // default THREE.PCFShadowMap
 document.body.appendChild(renderer.domElement);
 
 // LIGHTS
-const light = new THREE.HemisphereLight(0xddddff, 0x556655, 1.75);
+const light = new THREE.HemisphereLight(0xddddff, 0x775566, 1.5);
 scene.add(light);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-scene.add(directionalLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+directionalLight.position.set(60, 50, -20);
+directionalLight.castShadow = true;
 
 const targetObject = new THREE.Object3D();
 scene.add(targetObject);
-targetObject.position.set(-5, 0, 0);
+targetObject.position.set(0, 0, 0);
 directionalLight.target = targetObject;
+
+scene.add(directionalLight);
+
+//Set up shadow properties for the light
+directionalLight.shadow.mapSize.width = 4096; // default
+directionalLight.shadow.mapSize.height = 4096; // default
+directionalLight.shadow.camera.near = 0.1; // default
+directionalLight.shadow.camera.far = 200; // default
+directionalLight.shadow.camera.top = 200; // default
+directionalLight.shadow.camera.right = 200; // default
+directionalLight.shadow.camera.bottom = -200; // default
+directionalLight.shadow.camera.left = -200; // default
+
+// var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+// scene.add(helper);
 
 // PLANE
 const geometry = new THREE.PlaneGeometry(1000, 1000, 32);
-const material = new THREE.MeshBasicMaterial({
+const material = new THREE.MeshStandardMaterial({
   color: 0x44bb44,
   side: THREE.DoubleSide
 });
 const plane = new THREE.Mesh(geometry, material);
+plane.receiveShadow = true;
 scene.add(plane);
 plane.rotation.x = 1.5708;
 plane.position.y = -0.1;
@@ -61,6 +80,7 @@ let originalModels = {
 const loadModel = (loader, modelDef) => {
   return new Promise(function(resolve, reject) {
     const material = new THREE.MeshStandardMaterial();
+    // material.specular = 0x000000;
     material.map = new THREE.TextureLoader().load(modelDef.imgFilePath);
 
     loader.load(
@@ -69,6 +89,8 @@ const loadModel = (loader, modelDef) => {
         object.scale.set(...modelDef.scale);
         object.traverse(child => {
           if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
             child.material = material;
           }
         });
