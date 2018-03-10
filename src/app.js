@@ -179,6 +179,64 @@ const createSelectableTile = (x, z) => {
   return tile;
 };
 
+const createDisplayTile = (x, z) => {
+  var geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(0, -5, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(5, 0, 0),
+    new THREE.Vector3(5, -5, 0),
+    new THREE.Vector3(18, -5, 0),
+    new THREE.Vector3(18, 0, 0),
+    new THREE.Vector3(23, 0, 0),
+    new THREE.Vector3(23, -5, 0),
+    new THREE.Vector3(23, -18, 0),
+    new THREE.Vector3(18, -18, 0),
+    new THREE.Vector3(23, -23, 0),
+    new THREE.Vector3(18, -23, 0),
+    new THREE.Vector3(5, -23, 0),
+    new THREE.Vector3(5, -18, 0),
+    new THREE.Vector3(0, -23, 0),
+    new THREE.Vector3(0, -18, 0)
+  );
+
+  const faces = [
+    new THREE.Face3(0, 1, 2),
+    new THREE.Face3(0, 2, 3),
+    new THREE.Face3(2, 3, 4),
+    new THREE.Face3(2, 4, 5),
+    new THREE.Face3(4, 5, 7),
+    new THREE.Face3(5, 6, 7),
+    new THREE.Face3(5, 6, 8),
+    new THREE.Face3(5, 8, 9),
+    new THREE.Face3(8, 9, 10),
+    new THREE.Face3(9, 10, 11),
+    new THREE.Face3(9, 11, 12),
+    new THREE.Face3(9, 12, 13),
+    new THREE.Face3(12, 13, 14),
+    new THREE.Face3(13, 14, 15),
+    new THREE.Face3(0, 13, 15),
+    new THREE.Face3(0, 3, 13)
+  ];
+  faces.forEach(x => geometry.faces.push(x));
+
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    opacity: 0.0,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  const tile = new THREE.Mesh(geometry, material);
+  tile.castShadow = false;
+  tile.receiveShadow = false;
+  tile.rotation.x = DEGREES_90;
+  tile.position.set(x + 0.5, 0.5, z + 1);
+  scene.add(tile);
+
+  return tile;
+};
+
 const createTile = (gridTileName, x, z) => {
   // const rotations = [0, DEGREES_90, 3.14159, 4.71239];
 
@@ -214,6 +272,7 @@ const placeTiles = () => {
       createdTiles.push({
         name: gridTiles[tileName].name,
         tile: createSelectableTile(x * multiplier, z * multiplier),
+        displayTile: createDisplayTile(x * multiplier, z * multiplier),
         assets: createTile(tileName, x * multiplier, z * multiplier)
       });
     }
@@ -244,6 +303,9 @@ function onDocumentMouseDown(event) {
     intersects[0].object.material.color.setHex(Math.random() * 0xffffff);
     const gridTile = createdTiles.find(x => x.tile == intersects[0].object);
     console.log("Selected " + gridTile.name);
+    createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
+
+    gridTile.displayTile.material.opacity = 0.5;
   }
 }
 
