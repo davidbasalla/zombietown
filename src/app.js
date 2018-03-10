@@ -20,7 +20,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-camera.position.set(40, 30, 40); // all components equal
+camera.position.set(80, 60, 80); // all components equal
 camera.lookAt(scene.position);
 
 // RENDERER
