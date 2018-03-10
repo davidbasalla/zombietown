@@ -12,6 +12,7 @@ Run `yarn start` to start webpack dev server on port 8080
 
 * ThreeJS
 * Webpack
+* [SimpleTown asset pack](https://www.cgtrader.com/3d-models/exterior/cityscape/simplepoly-city-low-poly-assets)
 
 ## Screenshots
 
