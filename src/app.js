@@ -4,6 +4,8 @@ import { TrackballControls } from "three-trackballcontrols";
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
 
+const DEGREES_90 = 1.5708;
+
 const scene = new THREE.Scene();
 
 // CAMERA
@@ -68,7 +70,7 @@ const material = new THREE.MeshStandardMaterial({
 const plane = new THREE.Mesh(geometry, material);
 plane.receiveShadow = true;
 scene.add(plane);
-plane.rotation.x = 1.5708;
+plane.rotation.x = DEGREES_90;
 plane.position.y = -0.1;
 
 // LOADING MODELS
@@ -137,7 +139,7 @@ const buildStreetGrid = () => {
       scene.add(lane);
 
       const laneRotated = roadModels["roadLane1"].clone();
-      laneRotated.rotation.y += 1.5708;
+      laneRotated.rotation.y += DEGREES_90;
       laneRotated.position.set(x * multiplier + 6.7, 0, z * multiplier - 0.1);
       scene.add(laneRotated);
 
@@ -146,7 +148,7 @@ const buildStreetGrid = () => {
       scene.add(lane2);
 
       const laneRotated2 = roadModels["roadLane3"].clone();
-      laneRotated2.rotation.y += 1.5708;
+      laneRotated2.rotation.y += DEGREES_90;
       laneRotated2.position.set(
         x * multiplier + 14.1,
         0,
@@ -170,7 +172,7 @@ const createSelectableTile = (x, z) => {
   const tile = new THREE.Mesh(geometry, material);
   tile.castShadow = false;
   tile.receiveShadow = false;
-  tile.rotation.x = 1.5708;
+  tile.rotation.x = DEGREES_90;
   tile.position.set(x + 11, 0.25, z - 11);
   scene.add(tile);
 
@@ -178,7 +180,7 @@ const createSelectableTile = (x, z) => {
 };
 
 const createTile = (gridTileName, x, z) => {
-  // const rotations = [0, 1.5708, 3.14159, 4.71239];
+  // const rotations = [0, DEGREES_90, 3.14159, 4.71239];
 
   let assets = [];
   gridTiles[gridTileName].assets.forEach(asset => {
