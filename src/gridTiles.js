@@ -1,6 +1,7 @@
 export default [
   {
     name: "smallResidential",
+    displayName: "Small houses",
     assets: [
       {
         name: "smallResidential1",
@@ -51,6 +52,7 @@ export default [
   },
   {
     name: "tallResidential",
+    displayName: "Tower blocks",
     assets: [
       {
         name: "tallResidential1",
@@ -88,6 +90,7 @@ export default [
   },
   {
     name: "factory",
+    displayName: "Factory",
     assets: [
       {
         name: "factory",
@@ -171,6 +174,7 @@ export default [
   },
   {
     name: "supermarket",
+    displayName: "Supermarket",
     assets: [
       {
         name: "supermarket",
@@ -250,6 +254,7 @@ export default [
   },
   {
     name: "stadium",
+    displayName: "Stadium",
     assets: [
       {
         name: "stadium",
@@ -267,6 +272,7 @@ export default [
   },
   {
     name: "gasStation",
+    displayName: "Petrol station",
     assets: [
       {
         name: "gasStation",
@@ -349,6 +355,7 @@ export default [
   },
   {
     name: "mall",
+    displayName: "Shopping mall",
     assets: [
       {
         name: "bakery",

@@ -26,6 +26,11 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
+let state = {
+  turn: 1,
+  selectedTile: null
+};
+
 camera.position.set(80, 60, 80); // all components equal
 camera.lookAt(scene.position);
 
@@ -275,6 +280,7 @@ const placeTiles = () => {
 
       createdTiles.push({
         name: gridTiles[tileName].name,
+        displayName: gridTiles[tileName].displayName,
         tile: createSelectableTile(x * multiplier, z * multiplier),
         displayTile: createDisplayTile(x * multiplier, z * multiplier),
         assets: createTile(tileName, x * multiplier, z * multiplier)
@@ -306,15 +312,27 @@ function onDocumentMouseDown(event) {
   if (intersects.length > 0) {
     intersects[0].object.material.color.setHex(Math.random() * 0xffffff);
     const gridTile = createdTiles.find(x => x.tile == intersects[0].object);
-    console.log("Selected " + gridTile.name);
+    console.log(gridTile);
+    console.log("Selected " + gridTile.displayName);
+    state.selectedTile = gridTile.displayName;
+
     createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
 
     gridTile.displayTile.material.opacity = 0.5;
+    renderMenu();
   }
 }
 
+const nextTurn = function() {
+  state.turn += 1;
+  renderMenu();
+};
+
 const renderMenu = function() {
-  ReactDOM.render(<Menu turn={1} />, document.getElementById("controls"));
+  ReactDOM.render(
+    <Menu state={state} nextTurn={nextTurn} />,
+    document.getElementById("controls")
+  );
 };
 
 const animate = function() {
