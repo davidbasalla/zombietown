@@ -1,8 +1,12 @@
 import * as THREE from "three";
 import { OBJLoader } from "three-obj-loader-es6";
 import { TrackballControls } from "three-trackballcontrols";
+import React from "react";
+import ReactDOM from "react-dom";
+
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
+import Menu from "./ReactComponents/Menu";
 
 const DEGREES_90 = 1.5708;
 
@@ -309,6 +313,10 @@ function onDocumentMouseDown(event) {
   }
 }
 
+const renderMenu = function() {
+  ReactDOM.render(<Menu turn={1} />, document.getElementById("controls"));
+};
+
 const animate = function() {
   requestAnimationFrame(animate);
 
@@ -319,3 +327,4 @@ const animate = function() {
 };
 
 animate();
+renderMenu();
