@@ -49,12 +49,12 @@ export default class Game {
   }
 
   setupRenderer() {
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x888888);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    document.body.appendChild(renderer.domElement);
+
     return renderer;
   }
 
@@ -164,7 +164,6 @@ export default class Game {
 
   buildStreetGrid() {
     const multiplier = 23.4;
-    console.log(this.originalModels);
     const roadModels = this.originalModels["road"];
 
     for (let x = -5; x < 5; x++) {
@@ -337,8 +336,7 @@ export default class Game {
       const gridTile = this.createdTiles.find(
         x => x.tile == intersects[0].object
       );
-      console.log(gridTile);
-      console.log("Selected " + gridTile.displayName);
+
       this.state.selectedTile = gridTile.displayName;
 
       this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
@@ -349,8 +347,9 @@ export default class Game {
   }
 
   setupClickHandler() {
-    //THIS MIGHT BE THE REASON WHY THINGS DONT WORK WITH OVERLAY!
-    document.addEventListener("mousedown", this.processCanvasClick);
+    document
+      .getElementById("canvas")
+      .addEventListener("mousedown", this.processCanvasClick);
   }
 
   renderMenu() {
