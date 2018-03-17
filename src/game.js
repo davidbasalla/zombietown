@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import rootReducer from "./reducers";
+
+import { selectTile } from "./actions";
+
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
 import Menu from "./ReactComponents/Menu";
@@ -17,8 +20,8 @@ export default class Game {
   constructor() {
     this.scene = new THREE.Scene();
     this.defaultState = {
-      turn: 1
-      // selectedTile: null - WIP
+      turn: 1,
+      selectedTile: "No tile selected"
     };
     this.originalModels = {
       road: {},
@@ -343,8 +346,7 @@ export default class Game {
         x => x.tile == intersects[0].object
       );
 
-      // WIP add to redux state
-      // this.state.selectedTile = gridTile.displayName;
+      this.store.dispatch(selectTile(gridTile.displayName));
 
       this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
 
