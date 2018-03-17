@@ -3,7 +3,10 @@ import { OBJLoader } from "three-obj-loader-es6";
 import { TrackballControls } from "three-trackballcontrols";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 
+import rootReducer from "./reducers";
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
 import Menu from "./ReactComponents/Menu";
@@ -13,9 +16,9 @@ const DEGREES_90 = 1.5708;
 export default class Game {
   constructor() {
     this.scene = new THREE.Scene();
-    this.state = {
-      turn: 1,
-      selectedTile: null
+    this.defaultState = {
+      turn: 1
+      // selectedTile: null - WIP
     };
     this.originalModels = {
       road: {},
@@ -25,7 +28,10 @@ export default class Game {
 
     // Function bindings to 'this'
     this.processCanvasClick = this.processCanvasClick.bind(this);
-    this.updateStateNextTurn = this.updateStateNextTurn.bind(this);
+
+    //Redux store
+    this.store = createStore(rootReducer, this.defaultState);
+    this.store.subscribe(() => this.processStateUpdate());
   }
 
   start() {
@@ -337,7 +343,8 @@ export default class Game {
         x => x.tile == intersects[0].object
       );
 
-      this.state.selectedTile = gridTile.displayName;
+      // WIP add to redux state
+      // this.state.selectedTile = gridTile.displayName;
 
       this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
 
@@ -354,13 +361,15 @@ export default class Game {
 
   renderMenu() {
     ReactDOM.render(
-      <Menu state={this.state} nextTurn={this.updateStateNextTurn} />,
+      <Provider store={this.store}>
+        <Menu endTurn={this.endTurn} />
+      </Provider>,
       document.getElementById("controls")
     );
   }
 
-  updateStateNextTurn() {
-    this.state.turn += 1;
-    this.renderMenu();
+  processStateUpdate() {
+    console.log("STATUS UPDATE");
+    console.log(this.store.getState());
   }
 }
