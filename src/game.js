@@ -212,7 +212,6 @@ export default class Game {
 
     for (let x = -5; x < 5; x++) {
       for (let z = -5; z < 5; z++) {
-        // pick a random tile
         const randomIndex = Math.floor(Math.random() * keys.length);
         const tileName = keys[randomIndex];
 
