@@ -216,21 +216,52 @@ export default class Game {
     const multiplier = 23.4;
     const keys = Object.keys(gridTiles);
 
+    const coordinates = [];
     for (let x = -5; x < 5; x++) {
       for (let z = -5; z < 5; z++) {
-        const randomIndex = Math.floor(Math.random() * keys.length);
-        const tileName = keys[randomIndex];
-
-        this.createdTiles.push({
-          name: gridTiles[tileName].name,
-          displayName: gridTiles[tileName].displayName,
-          resourceAttributes: gridTiles[tileName].resourceAttributes,
-          tile: this.createSelectableTile(x * multiplier, z * multiplier),
-          displayTile: this.createDisplayTile(x * multiplier, z * multiplier),
-          assets: this.createTile(tileName, x * multiplier, z * multiplier)
-        });
+        const index = Math.floor(Math.random() * keys.length);
+        const tileName = keys[index];
+        coordinates.push([x, z, tileName]);
       }
     }
+
+    // Filter out middle 4 tiles
+    const filteredCoords = coordinates.filter(coord => {
+      return (
+        (coord[0] != 0 || coord[1] != 0) &&
+        (coord[0] != -1 || coord[1] != -1) &&
+        (coord[0] != 0 || coord[1] != -1) &&
+        (coord[0] != -1 || coord[1] != 0)
+      );
+    });
+
+    // Add custom starting buildings
+    filteredCoords.push([0, 0, "0", true]); //smallResidential
+    filteredCoords.push([0, -1, "3", true]); //supermarket
+    filteredCoords.push([-1, 0, "5", true]); //gasStation
+    filteredCoords.push([-1, -1, "2", true]); //mall
+
+    filteredCoords.forEach(coord => {
+      const x = coord[0];
+      const z = coord[1];
+      const tileName = coord[2];
+      const taken = coord[3] || false;
+
+      this.createdTiles.push({
+        name: gridTiles[tileName].name,
+        displayName: gridTiles[tileName].displayName,
+        resourceAttributes: gridTiles[tileName].resourceAttributes,
+        tile: this.createSelectableTile(x * multiplier, z * multiplier),
+        displayTile: this.createDisplayTile(x * multiplier, z * multiplier),
+        assets: this.createTile(
+          tileName,
+          x * multiplier,
+          z * multiplier,
+          taken
+        ),
+        taken: taken
+      });
+    });
   }
 
   createSelectableTile(x, z) {
@@ -310,7 +341,7 @@ export default class Game {
     return tile;
   }
 
-  createTile(gridTileName, x, z) {
+  createTile(gridTileName, x, z, taken) {
     // const rotations = [0, DEGREES_90, 3.14159, 4.71239];
 
     let assets = [];
@@ -321,7 +352,8 @@ export default class Game {
       const material = this.originalModels["building"][asset.name][
         "material"
       ].clone();
-      material.color.set(0x555555);
+
+      if (!taken) material.color.set(0x555555);
 
       obj.traverse(child => (child.material = material));
 
@@ -366,11 +398,12 @@ export default class Game {
 
       gridTile.displayTile.material.opacity = 0.5;
 
-      gridTile.assets.forEach(asset => {
-        asset.traverse(child => {
-          child.material && child.material.color.set(0xffffff);
-        });
-      });
+      // CHANGE THIS ONCE A TILE IS TAKEN
+      // gridTile.assets.forEach(asset => {
+      //   asset.traverse(child => {
+      //     child.material && child.material.color.set(0xffffff);
+      //   });
+      // });
 
       this.renderMenu();
     }
