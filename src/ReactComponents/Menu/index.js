@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { addTurn } from "../../actions";
 
+import resourceTypes from "../../constants/resourceTypes";
+
 import styles from "./style.css";
 
 const mapStateToProps = state => ({
@@ -16,6 +18,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addTurn: () => dispatch(addTurn())
 });
+
+const renderTileInfo = tile => {
+  const attrs = tile.resourceAttributes;
+
+  return Object.keys(attrs).map(function(key) {
+    let obj = attrs[key];
+    return <div key={key}>{`${resourceTypes[key]}: ${obj}`}</div>;
+  });
+};
 
 const Menu = ({
   turn,
@@ -35,7 +46,8 @@ const Menu = ({
       <span className="resource">🍎: {`${food} (${foodGrowth})`}</span>
 
       <h3>Selected tile:</h3>
-      <div>{selectedTile}</div>
+      <h4>{selectedTile.displayName}</h4>
+      <div>{renderTileInfo(selectedTile)}</div>
 
       <div className="buttonContainer">
         <button className="endTurnButton" onClick={addTurn}>

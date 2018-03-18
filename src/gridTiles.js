@@ -10,36 +10,53 @@ export default [
   {
     name: "smallResidential",
     displayName: "Small houses",
-    assets: assetsSmallResidential
+    assets: assetsSmallResidential,
+    resourceAttributes: {
+      populationSpace: 2
+    }
   },
   {
     name: "tallResidential",
     displayName: "Tower blocks",
-    assets: assetsTallResidential
+    assets: assetsTallResidential,
+    resourceAttributes: {
+      populationSpace: 5
+    }
   },
   {
     name: "factory",
     displayName: "Factory",
-    assets: assetsFactory
+    assets: assetsFactory,
+    resourceAttributes: {}
   },
   {
     name: "supermarket",
     displayName: "Supermarket",
-    assets: assetsSupermarket
+    assets: assetsSupermarket,
+    resourceAttributes: {
+      foodGrowth: 5
+    }
   },
   {
     name: "stadium",
     displayName: "Stadium",
-    assets: assetsStadium
+    assets: assetsStadium,
+    resourceAttributes: {
+      populationSpace: 8
+    }
   },
   {
     name: "gasStation",
     displayName: "Petrol station",
-    assets: assetsGasStation
+    assets: assetsGasStation,
+    resourceAttributes: {}
   },
   {
     name: "mall",
     displayName: "Shopping mall",
-    assets: assetsMall
+    assets: assetsMall,
+    resourceAttributes: {
+      foodGrowth: 4
+    }
   }
 ];

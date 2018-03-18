@@ -21,7 +21,10 @@ export default class Game {
     this.scene = new THREE.Scene();
     this.defaultState = {
       turn: 1,
-      selectedTile: "No tile selected"
+      selectedTile: {
+        displayName: "Nothing selected",
+        resourceAttributes: {}
+      }
     };
     this.originalModels = {
       road: {},
@@ -145,7 +148,10 @@ export default class Game {
               child.material = material;
             }
           });
-          this.originalModels[modelDef.type][modelDef.name] = object;
+          this.originalModels[modelDef.type][modelDef.name] = {
+            mesh: object,
+            material: material
+          };
           resolve();
         },
         xhr => {
@@ -177,24 +183,24 @@ export default class Game {
 
     for (let x = -5; x < 5; x++) {
       for (let z = -5; z < 5; z++) {
-        const intersection = roadModels["roadIntersection"].clone();
+        const intersection = roadModels["roadIntersection"]["mesh"].clone();
         intersection.position.set(x * multiplier, 0, z * multiplier);
         this.scene.add(intersection);
 
-        const lane = roadModels["roadLane1"].clone();
+        const lane = roadModels["roadLane1"]["mesh"].clone();
         lane.position.set(x * multiplier + 0.2, 0, z * multiplier + 7.6);
         this.scene.add(lane);
 
-        const laneRotated = roadModels["roadLane1"].clone();
+        const laneRotated = roadModels["roadLane1"]["mesh"].clone();
         laneRotated.rotation.y += DEGREES_90;
         laneRotated.position.set(x * multiplier + 6.7, 0, z * multiplier - 0.1);
         this.scene.add(laneRotated);
 
-        const lane2 = roadModels["roadLane3"].clone();
+        const lane2 = roadModels["roadLane3"]["mesh"].clone();
         lane2.position.set(x * multiplier + 0.7, 0, z * multiplier + 15);
         this.scene.add(lane2);
 
-        const laneRotated2 = roadModels["roadLane3"].clone();
+        const laneRotated2 = roadModels["roadLane3"]["mesh"].clone();
         laneRotated2.rotation.y += DEGREES_90;
         laneRotated2.position.set(
           x * multiplier + 14.1,
@@ -218,6 +224,7 @@ export default class Game {
         this.createdTiles.push({
           name: gridTiles[tileName].name,
           displayName: gridTiles[tileName].displayName,
+          resourceAttributes: gridTiles[tileName].resourceAttributes,
           tile: this.createSelectableTile(x * multiplier, z * multiplier),
           displayTile: this.createDisplayTile(x * multiplier, z * multiplier),
           assets: this.createTile(tileName, x * multiplier, z * multiplier)
@@ -308,7 +315,15 @@ export default class Game {
 
     let assets = [];
     gridTiles[gridTileName].assets.forEach(asset => {
-      const obj = this.originalModels["building"][asset.name].clone();
+      const obj = this.originalModels["building"][asset.name]["mesh"].clone();
+
+      // clone material
+      const material = this.originalModels["building"][asset.name][
+        "material"
+      ].clone();
+      material.color.set(0x555555);
+
+      obj.traverse(child => (child.material = material));
 
       asset.scale &&
         obj.scale.set(asset.scale[0], asset.scale[1], asset.scale[2]);
@@ -345,11 +360,18 @@ export default class Game {
         x => x.tile == intersects[0].object
       );
 
-      this.store.dispatch(selectTile(gridTile.displayName));
+      this.store.dispatch(selectTile(gridTile));
 
       this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
 
       gridTile.displayTile.material.opacity = 0.5;
+
+      gridTile.assets.forEach(asset => {
+        asset.traverse(child => {
+          child.material && child.material.color.set(0xffffff);
+        });
+      });
+
       this.renderMenu();
     }
   }
