@@ -7,13 +7,18 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import rootReducer from "./reducers";
-
 import { selectTile } from "./actions";
 
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
 import Menu from "./ReactComponents/Menu";
 
+const COLOR_GREEN = 0x00ff00;
+const COLOR_GREEN_GROUND = 0x44bb44;
+const COLOR_GREY_DARK = 0x555555;
+const COLOR_GREY_MID = 0x888888;
+const COLOR_GREY_GREEN = 0x556655;
+const COLOR_WHITE = 0xffffff;
 const DEGREES_90 = 1.5708;
 
 export default class Game {
@@ -44,7 +49,6 @@ export default class Game {
     this.camera = this.setupCamera();
     this.renderer = this.setupRenderer();
     this.setupLights();
-    this.setupGroundPlane();
     this.loadOriginalModels().then(() => {
       this.buildStreetGrid();
       this.placeTiles();
@@ -63,7 +67,7 @@ export default class Game {
   setupRenderer() {
     const renderer = new THREE.WebGLRenderer({ canvas: canvas });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x888888);
+    renderer.setClearColor(COLOR_GREY_MID);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
 
@@ -93,7 +97,7 @@ export default class Game {
     const light = new THREE.HemisphereLight(0xddddff, 0x775566, 1.5);
     this.scene.add(light);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const directionalLight = new THREE.DirectionalLight(COLOR_WHITE, 1.5);
     directionalLight.position.set(60, 50, -20);
     directionalLight.castShadow = true;
 
@@ -118,23 +122,9 @@ export default class Game {
     // this.scene.add(helper);
   }
 
-  setupGroundPlane() {
-    const geometry = new THREE.PlaneGeometry(1000, 1000, 32);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x44bb44,
-      side: THREE.DoubleSide
-    });
-    const plane = new THREE.Mesh(geometry, material);
-    plane.receiveShadow = true;
-    this.scene.add(plane);
-    plane.rotation.x = DEGREES_90;
-    plane.position.y = -0.1;
-  }
-
   loadModel(loader, modelDef) {
     return new Promise((resolve, reject) => {
       const material = new THREE.MeshStandardMaterial();
-      // material.specular = 0x000000;
       material.map = new THREE.TextureLoader().load(modelDef.imgFilePath);
 
       loader.load(
@@ -267,7 +257,7 @@ export default class Game {
   createSelectableTile(x, z) {
     const geometry = new THREE.PlaneGeometry(19, 19, 32);
     const material = new THREE.MeshStandardMaterial({
-      color: Math.random() * 0xffffff,
+      color: Math.random() * COLOR_WHITE,
       opacity: 0.0,
       transparent: true,
       side: THREE.DoubleSide
@@ -325,7 +315,7 @@ export default class Game {
     faces.forEach(x => geometry.faces.push(x));
 
     const material = new THREE.MeshBasicMaterial({
-      color: 0x00ff00,
+      color: COLOR_GREEN,
       opacity: 0.0,
       transparent: true,
       side: THREE.DoubleSide
@@ -341,33 +331,48 @@ export default class Game {
     return tile;
   }
 
+  createTileGround(x, z, taken) {
+    const geometry = new THREE.PlaneGeometry(20, 20, 32);
+    const planeMaterial = new THREE.MeshStandardMaterial({
+      color: COLOR_GREEN_GROUND,
+      side: THREE.DoubleSide
+    });
+
+    const plane = new THREE.Mesh(geometry, planeMaterial);
+    plane.receiveShadow = true;
+    this.scene.add(plane);
+    plane.rotation.x = DEGREES_90;
+    plane.position.set(x + 10, -0.25, z - 10);
+    return plane;
+  }
+
   createTile(gridTileName, x, z, taken) {
-    // const rotations = [0, DEGREES_90, 3.14159, 4.71239];
-
     let assets = [];
+
+    const groundPlane = this.createTileGround(x, z, taken);
+    if (!taken) groundPlane.material.color.set(COLOR_GREY_GREEN);
+    assets.push(groundPlane);
+
+    // place the assets
     gridTiles[gridTileName].assets.forEach(asset => {
-      const obj = this.originalModels["building"][asset.name]["mesh"].clone();
+      const srcAsset = this.originalModels["building"][asset.name];
+      const mesh = srcAsset["mesh"].clone();
+      const material = srcAsset["material"].clone();
 
-      // clone material
-      const material = this.originalModels["building"][asset.name][
-        "material"
-      ].clone();
+      if (!taken) material.color.set(COLOR_GREY_DARK);
 
-      if (!taken) material.color.set(0x555555);
-
-      obj.traverse(child => (child.material = material));
+      mesh.traverse(child => (child.material = material));
 
       asset.scale &&
-        obj.scale.set(asset.scale[0], asset.scale[1], asset.scale[2]);
+        mesh.scale.set(asset.scale[0], asset.scale[1], asset.scale[2]);
 
-      obj.position.set(
+      mesh.position.set(
         x + asset.offset[0],
         0 + asset.offset[1],
         z + asset.offset[2]
       );
-      // obj.rotation.y = rotations[Math.floor(Math.random() * 4)];
-      this.scene.add(obj);
-      assets.push(obj);
+      this.scene.add(mesh);
+      assets.push(mesh);
     });
     return assets;
   }
@@ -387,7 +392,7 @@ export default class Game {
     );
 
     if (intersects.length > 0) {
-      intersects[0].object.material.color.setHex(Math.random() * 0xffffff);
+      intersects[0].object.material.color.setHex(Math.random() * COLOR_WHITE);
       const gridTile = this.createdTiles.find(
         x => x.tile == intersects[0].object
       );
@@ -397,13 +402,6 @@ export default class Game {
       this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
 
       gridTile.displayTile.material.opacity = 0.5;
-
-      // CHANGE THIS ONCE A TILE IS TAKEN
-      // gridTile.assets.forEach(asset => {
-      //   asset.traverse(child => {
-      //     child.material && child.material.color.set(0xffffff);
-      //   });
-      // });
 
       this.renderMenu();
     }
