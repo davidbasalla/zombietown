@@ -9,8 +9,20 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.buttonContainer {
+  padding-top: 30px;
+}
+
 .endTurnButton {
   height: 50px;
   width: 100%;
   font-size: 20px;
+}
+
+.resource {
+  padding-right: 20px;
+}
+
+hr {
+  margin-top: 30px;
 }

@@ -69,9 +69,9 @@ export default class Game {
 
   setupCamera() {
     const aspect = window.innerWidth / window.innerHeight;
-    const d = 30;
-    const offsetX = 0;
-    const offsetY = 0;
+    const d = 40;
+    const offsetX = 8;
+    const offsetY = 8;
     const camera = new THREE.OrthographicCamera(
       -d * aspect + offsetX,
       d * aspect + offsetX,
