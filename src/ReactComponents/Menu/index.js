@@ -9,10 +9,10 @@ import styles from "./style.css";
 const mapStateToProps = state => ({
   turn: state.turn,
   selectedTile: state.selectedTile,
-  currentPopulation: 0,
-  maxPopulation: 10,
-  food: 0,
-  foodGrowth: "+2"
+  currentPopulation: state.population,
+  maxPopulation: state.maxPopulation,
+  food: state.foodAmount,
+  foodGrowth: `${state.foodGrowth >= 0 ? "+" : "-"}${state.foodGrowth}`
 });
 
 const mapDispatchToProps = dispatch => ({

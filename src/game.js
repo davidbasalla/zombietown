@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import rootReducer from "./reducers";
-import { selectTile } from "./actions";
+import { selectTile, updateFoodGrowth, updateMaxPopulation } from "./actions";
 
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
@@ -26,6 +26,10 @@ export default class Game {
     this.scene = new THREE.Scene();
     this.defaultState = {
       turn: 1,
+      population: 4,
+      maxPopulation: 0,
+      foodAmount: 5,
+      foodGrowth: 0,
       selectedTile: {
         displayName: "Nothing selected",
         resourceAttributes: {}
@@ -52,6 +56,7 @@ export default class Game {
     this.loadOriginalModels().then(() => {
       this.buildStreetGrid();
       this.placeTiles();
+      this.updateResources();
     });
     this.setupClickHandler();
 
@@ -229,7 +234,7 @@ export default class Game {
     filteredCoords.push([0, 0, "0", true]); //smallResidential
     filteredCoords.push([0, -1, "3", true]); //supermarket
     filteredCoords.push([-1, 0, "5", true]); //gasStation
-    filteredCoords.push([-1, -1, "2", true]); //mall
+    filteredCoords.push([-1, -1, "1", true]); //tallResidential
 
     filteredCoords.forEach(coord => {
       const x = coord[0];
@@ -425,5 +430,46 @@ export default class Game {
   processStateUpdate() {
     console.log("STATUS UPDATE");
     console.log(this.store.getState());
+  }
+
+  updateResources() {
+    console.log("UPDATE RESOURCES");
+    const maxPopulation = this.calcMaxPopulation();
+    const foodGrowth = this.calcFoodGrowth();
+
+    this.store.dispatch(updateFoodGrowth(foodGrowth));
+    this.store.dispatch(updateMaxPopulation(maxPopulation));
+  }
+
+  calcMaxPopulation() {
+    const takenTiles = this.createdTiles.filter(x => x.taken);
+
+    const addPopSpace = (total, element) => {
+      const amount = element.resourceAttributes.populationSpace
+        ? element.resourceAttributes.populationSpace
+        : 0;
+      return (total += amount);
+    };
+
+    return takenTiles.reduce(addPopSpace, 0);
+  }
+
+  calcFoodGrowth() {
+    const takenTiles = this.createdTiles.filter(x => x.taken);
+
+    const addFoodGrowth = (total, element) => {
+      const amount = element.resourceAttributes.foodGrowth
+        ? element.resourceAttributes.foodGrowth
+        : 0;
+      return (total += amount);
+    };
+
+    const pureFoodGrowth = takenTiles.reduce(addFoodGrowth, 0);
+    console.log(pureFoodGrowth);
+    console.log("YO");
+    console.log(pureFoodGrowth - this.store.getState().population);
+
+    // console.log(pureFoodGrowth - this.store.getState("population"));
+    return pureFoodGrowth - this.store.getState().population;
   }
 }
