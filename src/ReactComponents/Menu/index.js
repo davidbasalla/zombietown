@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTurn } from "../../actions";
+import { addTurn, conquer } from "../../actions";
 
 import resourceTypes from "../../constants/resourceTypes";
 
@@ -15,9 +15,12 @@ const mapStateToProps = state => ({
   foodGrowth: `${state.foodGrowth >= 0 ? "+" : "-"}${state.foodGrowth}`
 });
 
-const mapDispatchToProps = dispatch => ({
-  addTurn: () => dispatch(addTurn())
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    addTurnAction: () => dispatch(addTurn()),
+    conquerAction: tile => dispatch(conquer(tile))
+  };
+};
 
 const renderTileInfo = tile => {
   const attrs = tile.resourceAttributes;
@@ -35,8 +38,11 @@ const Menu = ({
   maxPopulation,
   food,
   foodGrowth,
-  addTurn
+  conquerAction,
+  addTurnAction
 }) => {
+  const taken = selectedTile.taken;
+
   return (
     <div className="menu">
       <h3> Resources </h3>
@@ -49,6 +55,17 @@ const Menu = ({
       <h4>{selectedTile.displayName}</h4>
       <div>{renderTileInfo(selectedTile)}</div>
 
+      {!taken && (
+        <div className="buttonContainer">
+          <button
+            className="endTurnButton"
+            onClick={() => conquerAction(selectedTile)}
+          >
+            Conquer tile
+          </button>
+        </div>
+      )}
+
       <div className="buttonContainer">
         <button className="endTurnButton" onClick={addTurn}>
           End day {turn}
@@ -58,4 +75,4 @@ const Menu = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps, null)(Menu);

@@ -16,3 +16,13 @@ export const updateMaxPopulation = maxPopulation => ({
   type: "UPDATE_MAX_POPULATION",
   maxPopulation
 });
+
+export const addTiles = tiles => ({
+  type: "ADD_TILES",
+  tiles
+});
+
+export const conquer = tile => ({
+  type: "CONQUER_TILE",
+  tile
+});

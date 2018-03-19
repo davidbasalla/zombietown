@@ -6,6 +6,7 @@ import maxPopulation from "./maxPopulation";
 import population from "./population";
 import turn from "./turn";
 import selectedTile from "./selectedTile";
+import tiles from "./tiles";
 
 export default combineReducers({
   foodAmount,
@@ -13,5 +14,6 @@ export default combineReducers({
   maxPopulation,
   population,
   turn,
-  selectedTile
+  selectedTile,
+  tiles
 });

@@ -7,7 +7,12 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import rootReducer from "./reducers";
-import { selectTile, updateFoodGrowth, updateMaxPopulation } from "./actions";
+import {
+  addTiles,
+  selectTile,
+  updateFoodGrowth,
+  updateMaxPopulation
+} from "./actions";
 
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
@@ -33,7 +38,8 @@ export default class Game {
       selectedTile: {
         displayName: "Nothing selected",
         resourceAttributes: {}
-      }
+      },
+      tiles: []
     };
     this.originalModels = {
       road: {},
@@ -164,11 +170,11 @@ export default class Game {
     const loader = new OBJLoader();
 
     return new Promise((resolve, reject) => {
-      let load_promises = srcModelsDefs.map(modelDef =>
+      let loadPromises = srcModelsDefs.map(modelDef =>
         this.loadModel(loader, modelDef)
       );
 
-      Promise.all(load_promises).then(resolve);
+      Promise.all(loadPromises).then(resolve);
     });
   }
 
@@ -257,6 +263,9 @@ export default class Game {
         taken: taken
       });
     });
+
+    // update store with tiles
+    this.store.dispatch(addTiles(this.createdTiles));
   }
 
   createSelectableTile(x, z) {
@@ -421,7 +430,7 @@ export default class Game {
   renderMenu() {
     ReactDOM.render(
       <Provider store={this.store}>
-        <Menu endTurn={this.endTurn} />
+        <Menu />
       </Provider>,
       document.getElementById("controls")
     );
@@ -433,7 +442,7 @@ export default class Game {
   }
 
   updateResources() {
-    console.log("UPDATE RESOURCES");
+    // console.log("UPDATE RESOURCES");
     const maxPopulation = this.calcMaxPopulation();
     const foodGrowth = this.calcFoodGrowth();
 
@@ -465,11 +474,6 @@ export default class Game {
     };
 
     const pureFoodGrowth = takenTiles.reduce(addFoodGrowth, 0);
-    console.log(pureFoodGrowth);
-    console.log("YO");
-    console.log(pureFoodGrowth - this.store.getState().population);
-
-    // console.log(pureFoodGrowth - this.store.getState("population"));
     return pureFoodGrowth - this.store.getState().population;
   }
 }
