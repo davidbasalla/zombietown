@@ -12,7 +12,9 @@ const mapStateToProps = state => ({
   currentPopulation: state.population,
   maxPopulation: state.maxPopulation,
   food: state.foodAmount,
-  foodGrowth: `${state.foodGrowth >= 0 ? "+" : "-"}${state.foodGrowth}`
+  foodGrowth: `${state.foodGrowth >= 0 ? "+" : "-"}${state.foodGrowth}`,
+  showConquerButton:
+    !state.selectedTile.taken && !state.selectedTile.conquerCounter
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -22,13 +24,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-const renderTileInfo = tile => {
-  const attrs = tile.resourceAttributes;
-
-  return Object.keys(attrs).map(function(key) {
+const renderResourceTypes = attrs =>
+  Object.keys(attrs).map(function(key) {
     let obj = attrs[key];
     return <div key={key}>{`${resourceTypes[key]}: ${obj}`}</div>;
   });
+
+const renderTileInfo = tile => {
+  let divs = renderResourceTypes(tile.resourceAttributes);
+  tile.conquerCounter &&
+    divs.push(
+      <div key="conquer">{`Conquering in ${tile.conquerCounter} days`}</div>
+    );
+  return divs;
 };
 
 const Menu = ({
@@ -39,23 +47,26 @@ const Menu = ({
   food,
   foodGrowth,
   conquerAction,
-  addTurnAction
+  addTurnAction,
+  showConquerButton
 }) => {
-  const taken = selectedTile.taken;
-
   return (
     <div className="menu">
-      <h3> Resources </h3>
-      <span className="resource">
-        👱: {`${currentPopulation}/${maxPopulation}`}
-      </span>
-      <span className="resource">🍎: {`${food} (${foodGrowth})`}</span>
+      {/* <h3> Resources </h3> */}
+      <div className="resourceContainer">
+        <span className="resource">
+          👱: {`${currentPopulation}/${maxPopulation}`}
+        </span>
+        <span className="resource">🍎: {`${food} (${foodGrowth})`}</span>
+      </div>
 
-      <h3>Selected tile:</h3>
+      <hr />
+
+      {/* <h3>Selected tile:</h3> */}
       <h4>{selectedTile.displayName}</h4>
       <div>{renderTileInfo(selectedTile)}</div>
 
-      {!taken && (
+      {showConquerButton && (
         <div className="buttonContainer">
           <button
             className="endTurnButton"
@@ -67,7 +78,7 @@ const Menu = ({
       )}
 
       <div className="buttonContainer">
-        <button className="endTurnButton" onClick={addTurn}>
+        <button className="endTurnButton" onClick={addTurnAction}>
           End day {turn}
         </button>
       </div>
