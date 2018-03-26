@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTurn, conquer } from "../../actions";
+import { endTurn, conquer } from "../../actions";
 
 import resourceTypes from "../../constants/resourceTypes";
 
@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addTurnAction: () => dispatch(addTurn()),
+    endTurnAction: () => dispatch(endTurn()),
     conquerAction: tile => dispatch(conquer(tile))
   };
 };
@@ -47,7 +47,7 @@ const Menu = ({
   food,
   foodGrowth,
   conquerAction,
-  addTurnAction,
+  endTurnAction,
   showConquerButton
 }) => {
   return (
@@ -78,7 +78,7 @@ const Menu = ({
       )}
 
       <div className="buttonContainer">
-        <button className="endTurnButton" onClick={addTurnAction}>
+        <button className="endTurnButton" onClick={endTurnAction}>
           End day {turn}
         </button>
       </div>

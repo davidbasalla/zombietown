@@ -1,5 +1,5 @@
-export const addTurn = () => ({
-  type: "ADD_TURN"
+export const endTurn = () => ({
+  type: "END_TURN"
 });
 
 export const selectTile = tileName => ({
