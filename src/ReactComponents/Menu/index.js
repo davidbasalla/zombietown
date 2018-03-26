@@ -27,14 +27,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const renderResourceTypes = attrs =>
   Object.keys(attrs).map(function(key) {
     let obj = attrs[key];
-    return <div key={key}>{`${resourceTypes[key]}: ${obj}`}</div>;
+    return (
+      <div className="info" key={key}>{`${resourceTypes[key]}: ${obj}`}</div>
+    );
   });
 
 const renderTileInfo = tile => {
   let divs = renderResourceTypes(tile.resourceAttributes);
   tile.conquerCounter &&
     divs.push(
-      <div key="conquer">{`Conquering in ${tile.conquerCounter} days`}</div>
+      <div className="info" key="conquer">{`Conquering in ${
+        tile.conquerCounter
+      } days`}</div>
     );
   return divs;
 };
@@ -52,7 +56,6 @@ const Menu = ({
 }) => {
   return (
     <div className="menu">
-      {/* <h3> Resources </h3> */}
       <div className="resourceContainer">
         <span className="resource">
           👱: {`${currentPopulation}/${maxPopulation}`}
@@ -62,8 +65,7 @@ const Menu = ({
 
       <hr />
 
-      {/* <h3>Selected tile:</h3> */}
-      <h4>{selectedTile.displayName}</h4>
+      <h4 className="selected">{selectedTile.displayName}</h4>
       <div>{renderTileInfo(selectedTile)}</div>
 
       {showConquerButton && (

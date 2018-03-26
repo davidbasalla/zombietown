@@ -18,4 +18,4 @@ Run `yarn start` to start webpack dev server on port 8080
 
 ## Screenshots
 
-![screenshot1](./screenshots/zombietown03.png)
+![screenshot1](./screenshots/zombietown04.png)
