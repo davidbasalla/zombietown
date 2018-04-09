@@ -444,9 +444,11 @@ export default class Game {
   updateResources() {
     // console.log("UPDATE RESOURCES");
     const maxPopulation = this.calcMaxPopulation();
-    const foodGrowth = this.calcFoodGrowth();
 
-    this.store.dispatch(updateFoodGrowth(foodGrowth));
+    const takenTiles = this.createdTiles.filter(x => x.taken);
+    const population = this.store.getState().population;
+
+    this.store.dispatch(updateFoodGrowth(takenTiles, population));
     this.store.dispatch(updateMaxPopulation(maxPopulation));
   }
 
@@ -461,19 +463,5 @@ export default class Game {
     };
 
     return takenTiles.reduce(addPopSpace, 0);
-  }
-
-  calcFoodGrowth() {
-    const takenTiles = this.createdTiles.filter(x => x.taken);
-
-    const addFoodGrowth = (total, element) => {
-      const amount = element.resourceAttributes.foodGrowth
-        ? element.resourceAttributes.foodGrowth
-        : 0;
-      return (total += amount);
-    };
-
-    const pureFoodGrowth = takenTiles.reduce(addFoodGrowth, 0);
-    return pureFoodGrowth - this.store.getState().population;
   }
 }
