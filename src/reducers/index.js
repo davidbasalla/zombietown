@@ -7,7 +7,8 @@ import turn from "./turn";
 import selectedTile from "./selectedTile";
 import tiles from "./tiles";
 
-export default combineReducers({
+// main reducer
+const reducer = combineReducers({
   foodAmount,
   maxPopulation,
   population,
@@ -15,3 +16,21 @@ export default combineReducers({
   selectedTile,
   tiles
 });
+
+// selector for food growth
+export const getFoodGrowth = state => {
+  const addFoodGrowth = (total, tile) => {
+    const amount = tile.resourceAttributes.foodGrowth
+      ? tile.resourceAttributes.foodGrowth
+      : 0;
+    return (total += amount);
+  };
+
+  const takenTiles = state.tiles.filter(tile => tile.taken);
+  const grossGrowth = takenTiles.reduce(addFoodGrowth, 0);
+  const netGrowth = grossGrowth - state.population;
+
+  return `${netGrowth >= 0 ? "+" : "-"}${netGrowth}`;
+};
+
+export default reducer;
