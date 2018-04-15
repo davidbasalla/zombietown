@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import { endTurn, conquer } from "../../actions";
-import { getFoodGrowth } from "../../reducers";
+import { getFoodGrowth, getMaxPopulation } from "../../reducers";
 
 const mapStateToProps = state => ({
   turn: state.turn,
   selectedTile: state.selectedTile,
   currentPopulation: state.population,
-  maxPopulation: state.maxPopulation,
+  maxPopulation: getMaxPopulation(state),
   food: state.foodAmount,
   foodGrowth: getFoodGrowth(state),
   showConquerButton:

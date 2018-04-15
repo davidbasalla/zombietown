@@ -27,7 +27,6 @@ export default class Game {
     this.defaultState = {
       turn: 1,
       population: 4,
-      maxPopulation: 0,
       foodAmount: 5,
       selectedTile: {
         displayName: "Nothing selected",
@@ -56,7 +55,6 @@ export default class Game {
     this.loadOriginalModels().then(() => {
       this.buildStreetGrid();
       this.placeTiles();
-      this.updateResources();
     });
     this.setupClickHandler();
 
@@ -433,26 +431,5 @@ export default class Game {
   processStateUpdate() {
     console.log("STATUS UPDATE");
     console.log(this.store.getState());
-  }
-
-  updateResources() {
-    // console.log("UPDATE RESOURCES");
-    const maxPopulation = this.calcMaxPopulation();
-
-    // THIS IS DERIVED
-    // this.store.dispatch(updateMaxPopulation(maxPopulation));
-  }
-
-  calcMaxPopulation() {
-    const takenTiles = this.createdTiles.filter(x => x.taken);
-
-    const addPopSpace = (total, element) => {
-      const amount = element.resourceAttributes.populationSpace
-        ? element.resourceAttributes.populationSpace
-        : 0;
-      return (total += amount);
-    };
-
-    return takenTiles.reduce(addPopSpace, 0);
   }
 }
