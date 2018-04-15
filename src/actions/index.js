@@ -7,12 +7,6 @@ export const selectTile = tileName => ({
   tileName
 });
 
-export const updateFoodGrowth = (takenTiles, population) => ({
-  type: "UPDATE_FOOD_GROWTH",
-  takenTiles,
-  population
-});
-
 export const updateMaxPopulation = maxPopulation => ({
   type: "UPDATE_MAX_POPULATION",
   maxPopulation

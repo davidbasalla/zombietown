@@ -7,12 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import rootReducer from "./reducers";
-import {
-  addTiles,
-  selectTile,
-  updateFoodGrowth,
-  updateMaxPopulation
-} from "./actions";
+import { addTiles, selectTile, updateMaxPopulation } from "./actions";
 
 import srcModelsDefs from "./buildings.js";
 import gridTiles from "./gridTiles";
@@ -34,7 +29,6 @@ export default class Game {
       population: 4,
       maxPopulation: 0,
       foodAmount: 5,
-      foodGrowth: 0,
       selectedTile: {
         displayName: "Nothing selected",
         resourceAttributes: {}
@@ -445,11 +439,8 @@ export default class Game {
     // console.log("UPDATE RESOURCES");
     const maxPopulation = this.calcMaxPopulation();
 
-    const takenTiles = this.createdTiles.filter(x => x.taken);
-    const population = this.store.getState().population;
-
-    this.store.dispatch(updateFoodGrowth(takenTiles, population));
-    this.store.dispatch(updateMaxPopulation(maxPopulation));
+    // THIS IS DERIVED
+    // this.store.dispatch(updateMaxPopulation(maxPopulation));
   }
 
   calcMaxPopulation() {
