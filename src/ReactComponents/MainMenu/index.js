@@ -23,7 +23,7 @@ const renderTileInfo = tile => {
   return divs;
 };
 
-const Menu = ({
+const MainMenu = ({
   turn,
   selectedTile,
   currentPopulation,
@@ -35,7 +35,7 @@ const Menu = ({
   showConquerButton
 }) => {
   return (
-    <div className="menu">
+    <div>
       <div className="resourceContainer">
         <span className="resource">
           👱: {`${currentPopulation}/${maxPopulation}`}
@@ -68,4 +68,4 @@ const Menu = ({
   );
 };
 
-export default connect(Menu);
+export default connect(MainMenu);

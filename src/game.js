@@ -6,12 +6,17 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
+import "react-tabs/style/react-tabs.css";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import rootReducer from "./reducers";
 import { addTiles, selectTile, updateMaxPopulation } from "./actions";
 
 import srcModelsDefs from "./buildings.js";
+import people from "./people";
 import gridTiles from "./gridTiles";
-import Menu from "./ReactComponents/Menu";
+import MainMenu from "./ReactComponents/MainMenu";
+import PeopleMenu from "./ReactComponents/PeopleMenu";
 
 const COLOR_GREEN = 0x00ff00;
 const COLOR_GREEN_GROUND = 0x44bb44;
@@ -32,8 +37,10 @@ export default class Game {
         displayName: "Nothing selected",
         resourceAttributes: {}
       },
-      tiles: []
+      tiles: [],
+      people: [...people]
     };
+
     this.originalModels = {
       road: {},
       building: {}
@@ -422,7 +429,21 @@ export default class Game {
   renderMenu() {
     ReactDOM.render(
       <Provider store={this.store}>
-        <Menu />
+        <div className="ui">
+          <Tabs>
+            <TabList>
+              <Tab>Main</Tab>
+              <Tab>People</Tab>
+            </TabList>
+
+            <TabPanel>
+              <MainMenu />
+            </TabPanel>
+            <TabPanel>
+              <PeopleMenu />
+            </TabPanel>
+          </Tabs>
+        </div>
       </Provider>,
       document.getElementById("controls")
     );
