@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 import foodAmount from "./foodAmount";
+import people from "./people";
 import population from "./population";
 import turn from "./turn";
 import selectedTile from "./selectedTile";
@@ -9,6 +10,7 @@ import tiles from "./tiles";
 // main reducer
 const reducer = combineReducers({
   foodAmount,
+  people,
   population,
   turn,
   selectedTile,

@@ -2,7 +2,7 @@ export default [
   {
     firstName: "Ana Paula",
     nickName: "The Doctor",
-    lastName: "Bartman"
+    lastName: "Bartmann"
   },
   {
     firstName: "David",
