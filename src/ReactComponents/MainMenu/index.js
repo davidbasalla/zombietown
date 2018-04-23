@@ -24,15 +24,17 @@ const renderTileInfo = tile => {
 };
 
 const MainMenu = ({
-  turn,
-  selectedTile,
   currentPopulation,
-  maxPopulation,
+  displayConquerForm,
   food,
   foodGrowth,
+  maxPopulation,
+  selectedTile,
+  showConquerButton,
+  turn,
   conquerAction,
   endTurnAction,
-  showConquerButton
+  toggleFormAction
 }) => {
   return (
     <div>
@@ -51,8 +53,9 @@ const MainMenu = ({
       {showConquerButton && (
         <div className="buttonContainer">
           <button
-            className="endTurnButton"
-            onClick={() => conquerAction(selectedTile)}
+            className="button"
+            onClick={toggleFormAction}
+            disabled={displayConquerForm}
           >
             Conquer tile
           </button>
@@ -60,7 +63,11 @@ const MainMenu = ({
       )}
 
       <div className="buttonContainer">
-        <button className="endTurnButton" onClick={endTurnAction}>
+        <button
+          className="button"
+          onClick={endTurnAction}
+          disabled={displayConquerForm}
+        >
           End day {turn}
         </button>
       </div>

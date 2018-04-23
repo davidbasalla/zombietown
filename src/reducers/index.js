@@ -1,20 +1,22 @@
 import { combineReducers } from "redux";
 
+import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
 import people from "./people";
 import population from "./population";
-import turn from "./turn";
 import selectedTile from "./selectedTile";
 import tiles from "./tiles";
+import turn from "./turn";
 
 // main reducer
 const reducer = combineReducers({
+  displayConquerForm,
   foodAmount,
   people,
   population,
-  turn,
   selectedTile,
-  tiles
+  tiles,
+  turn
 });
 
 // selector for food growth

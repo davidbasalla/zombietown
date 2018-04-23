@@ -34,7 +34,8 @@ export default class Game {
         resourceAttributes: {}
       },
       tiles: [],
-      people: [...people]
+      people: [...people],
+      displayConquerForm: false
     };
 
     this.originalModels = {

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { endTurn, conquer } from "../../actions";
+import { endTurn, toggleForm } from "../../actions";
 import { getFoodGrowth, getMaxPopulation } from "../../reducers";
 
 const mapStateToProps = state => ({
@@ -10,13 +10,14 @@ const mapStateToProps = state => ({
   food: state.foodAmount,
   foodGrowth: getFoodGrowth(state),
   showConquerButton:
-    !state.selectedTile.taken && !state.selectedTile.conquerCounter
+    !state.selectedTile.taken && !state.selectedTile.conquerCounter,
+  displayConquerForm: state.displayConquerForm
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     endTurnAction: () => dispatch(endTurn()),
-    conquerAction: tile => dispatch(conquer(tile))
+    toggleFormAction: () => dispatch(toggleForm())
   };
 };
 

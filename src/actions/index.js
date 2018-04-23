@@ -16,3 +16,11 @@ export const conquer = tile => ({
   type: "CONQUER_TILE",
   tile
 });
+
+export const toggleForm = () => ({
+  type: "TOGGLE_CONQUER_FORM"
+});
+
+export const cancel = () => ({
+  type: "CANCEL"
+});
