@@ -1,0 +1,13 @@
+.ui {
+  width: 300px;
+  border-style: solid;
+  border-color: darkgray;
+  background-color: white;
+  height: 500px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  /* margin-right: 40px; */
+  font-family: Arial, Helvetica, sans-serif;
+  pointer-events: auto;
+}
