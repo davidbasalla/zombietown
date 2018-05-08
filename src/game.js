@@ -35,7 +35,13 @@ export default class Game {
       },
       tiles: [],
       people: [...people],
-      displayConquerForm: false
+      missions: [],
+      displayConquerForm: false,
+      ui: {
+        conquerFormState: {
+          selectedPeople: []
+        }
+      }
     };
 
     this.originalModels = {

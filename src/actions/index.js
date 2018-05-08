@@ -24,3 +24,8 @@ export const toggleForm = () => ({
 export const cancel = () => ({
   type: "CANCEL"
 });
+
+export const updatePersonOnConquerForm = person => ({
+  type: "UPDATE_PERSON_ON_CONQUER_FORM",
+  person
+});
