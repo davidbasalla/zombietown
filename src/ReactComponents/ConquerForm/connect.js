@@ -3,7 +3,8 @@ import { conquer, toggleForm } from "../../actions";
 
 const mapStateToProps = state => ({
   display: state.displayConquerForm,
-  selectedTile: state.selectedTile
+  selectedTile: state.selectedTile,
+  people: state.people
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
