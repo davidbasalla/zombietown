@@ -12,18 +12,21 @@ const renderResourceTypes = attrs =>
     );
   });
 
-const renderTileInfo = tile => {
+const renderTileInfo = (tile, missionForTile) => {
   let divs = renderResourceTypes(tile.resourceAttributes);
-  tile.conquerCounter &&
+
+  missionForTile &&
     divs.push(
       <div className="info" key="conquer">{`Conquering in ${
-        tile.conquerCounter
+        missionForTile.turnCounter
       } days`}</div>
     );
   return divs;
 };
 
 const MainMenu = ({
+  missionForSelectedTile,
+  activeMissions,
   currentPopulation,
   displayConquerForm,
   food,
@@ -48,7 +51,7 @@ const MainMenu = ({
       <hr />
 
       <h4 className="selected">{selectedTile.displayName}</h4>
-      <div>{renderTileInfo(selectedTile)}</div>
+      <div>{renderTileInfo(selectedTile, missionForSelectedTile)}</div>
 
       {showConquerButton && (
         <div className="buttonContainer">
@@ -65,7 +68,7 @@ const MainMenu = ({
       <div className="buttonContainer">
         <button
           className="button"
-          onClick={endTurnAction}
+          onClick={() => endTurnAction(activeMissions)}
           disabled={displayConquerForm}
         >
           End day {turn}

@@ -403,19 +403,17 @@ export default class Game {
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse3D, this.camera);
 
-    const intersects = raycaster.intersectObjects(
-      this.createdTiles.map(x => x.tile)
-    );
+    const tiles = this.store.getState().tiles;
+
+    const intersects = raycaster.intersectObjects(tiles.map(x => x.tile));
 
     if (intersects.length > 0) {
       intersects[0].object.material.color.setHex(Math.random() * COLOR_WHITE);
-      const gridTile = this.createdTiles.find(
-        x => x.tile == intersects[0].object
-      );
+      const gridTile = tiles.find(x => x.tile == intersects[0].object);
 
       this.store.dispatch(selectTile(gridTile));
 
-      this.createdTiles.forEach(x => (x.displayTile.material.opacity = 0));
+      tiles.forEach(x => (x.displayTile.material.opacity = 0));
 
       gridTile.displayTile.material.opacity = 0.5;
 

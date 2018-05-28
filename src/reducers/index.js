@@ -53,4 +53,10 @@ export const getMaxPopulation = state => {
   return takenTiles.reduce(addPopulationSpace, 0);
 };
 
+// selector for active missions
+export const getActiveMissions = state =>
+  state.missions.filter(
+    mission => mission.turnCounter && mission.turnCounter > 0
+  );
+
 export default reducer;

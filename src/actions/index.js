@@ -1,5 +1,6 @@
-export const endTurn = () => ({
-  type: "END_TURN"
+export const endTurn = activeMissions => ({
+  type: "END_TURN",
+  activeMissions
 });
 
 export const selectTile = tileName => ({
