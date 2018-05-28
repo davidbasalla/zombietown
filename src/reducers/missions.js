@@ -1,12 +1,12 @@
 const missions = (state = [], action) => {
   switch (action.type) {
-    case "START_CONQUER_MISSION":
+    case "CONQUER_TILE":
       // figure out what happens to each mission
 
       const mission = {
         people: action.people,
         turnCounter: 2,
-        type: "CONQUER_TILE",
+        type: "MISSION_CONQUER_TILE",
         tile: action.tile
       };
 

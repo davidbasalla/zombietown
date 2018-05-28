@@ -12,9 +12,10 @@ export const addTiles = tiles => ({
   tiles
 });
 
-export const conquer = tile => ({
+export const conquer = (tile, people) => ({
   type: "CONQUER_TILE",
-  tile
+  tile,
+  people
 });
 
 export const toggleForm = () => ({

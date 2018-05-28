@@ -5,6 +5,7 @@ import PeopleCheckboxContainer from "../PeopleCheckboxContainer";
 
 const ConquerForm = ({
   display,
+  selectedPeople,
   selectedTile,
   conquerAction,
   toggleFormAction
@@ -20,7 +21,10 @@ const ConquerForm = ({
       <p>Chance of success: 0%</p>
 
       <div className="buttonContainer">
-        <button className="button" onClick={() => conquerAction(selectedTile)}>
+        <button
+          className="button"
+          onClick={() => conquerAction(selectedTile, selectedPeople)}
+        >
           Conquer
         </button>
       </div>
