@@ -36,7 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         );
       }
     },
-    toggleFormAction: () => dispatch(toggleForm())
+    toggleFormAction: () =>
+      dispatch(setConquerFormError(undefined)) && dispatch(toggleForm())
   };
 };
 

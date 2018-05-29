@@ -1,3 +1,5 @@
+import { flatten } from "ramda";
+
 import { combineReducers } from "redux";
 
 import displayConquerForm from "./displayConquerForm";
@@ -58,5 +60,19 @@ export const getActiveMissions = state =>
   state.missions.filter(
     mission => mission.turnCounter && mission.turnCounter > 0
   );
+
+// selector for available people
+export const getAvailablePeople = state => {
+  const activeMissions = getActiveMissions(state);
+  const peopleInMissions = flatten(
+    activeMissions.map(mission => mission.people)
+  );
+
+  const peopleInMissionsIds = peopleInMissions.map(person => person.id);
+
+  return state.people.filter(
+    person => !peopleInMissionsIds.includes(person.id)
+  );
+};
 
 export default reducer;

@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import { setConquerFormError, updatePersonOnConquerForm } from "../../actions";
+import { getAvailablePeople } from "../../reducers";
 
 const mapStateToProps = state => ({
-  people: state.people,
+  people: getAvailablePeople(state),
   selectedPeople: state.ui.conquerFormState.selectedPeople
 });
 

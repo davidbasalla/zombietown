@@ -20,7 +20,14 @@ const PeopleCheckboxContainer = ({
     />
   );
 
-  return <div>{people.map(person => renderPersonOption(person))}</div>;
+  const peoplePresent = people.length > 0;
+
+  return (
+    <div>
+      {peoplePresent && people.map(person => renderPersonOption(person))}
+      {!peoplePresent && <span>No people available at the moment</span>}
+    </div>
+  );
 };
 
 export default connect(PeopleCheckboxContainer);
