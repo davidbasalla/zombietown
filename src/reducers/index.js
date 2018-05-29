@@ -61,6 +61,16 @@ export const getActiveMissions = state =>
     mission => mission.turnCounter && mission.turnCounter > 0
   );
 
+// selector for people on missions
+export const getPeopleOnMissions = state => {
+  const activeMissions = getActiveMissions(state);
+  const peopleInMissions = flatten(
+    activeMissions.map(mission => mission.people)
+  );
+  const peopleInMissionsIds = peopleInMissions.map(person => person.id);
+  return state.people.filter(person => peopleInMissionsIds.includes(person.id));
+};
+
 // selector for available people
 export const getAvailablePeople = state => {
   const activeMissions = getActiveMissions(state);
