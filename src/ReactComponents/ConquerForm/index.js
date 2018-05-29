@@ -5,6 +5,7 @@ import PeopleCheckboxContainer from "../PeopleCheckboxContainer";
 
 const ConquerForm = ({
   display,
+  error,
   selectedPeople,
   selectedTile,
   conquerAction,
@@ -19,6 +20,8 @@ const ConquerForm = ({
       <PeopleCheckboxContainer />
 
       <p>Chance of success: 0%</p>
+
+      {error && <div className="error">Error: {error}</div>}
 
       <div className="buttonContainer">
         <button

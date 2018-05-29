@@ -1,8 +1,10 @@
+// Interesting thing happening here is that the state is not fully sliced, it's sort of a sub grouping
+
 const ui = (state = {}, action) => {
+  const currentFormState = state.conquerFormState;
   switch (action.type) {
     case "UPDATE_PERSON_ON_CONQUER_FORM":
       const person = action.person;
-      const currentFormState = state.conquerFormState;
       const selectedPeople = state.conquerFormState.selectedPeople;
 
       if (selectedPeople.includes(person.id)) {
@@ -22,6 +24,22 @@ const ui = (state = {}, action) => {
           }
         };
       }
+    case "SET_ERROR_ON_CONQUER_FORM":
+      return {
+        ...state,
+        conquerFormState: {
+          ...currentFormState,
+          error: action.message
+        }
+      };
+    case "CLEAR_SELECTED_PEOPLE":
+      return {
+        ...state,
+        conquerFormState: {
+          ...currentFormState,
+          selectedPeople: []
+        }
+      };
     default:
       return state;
   }

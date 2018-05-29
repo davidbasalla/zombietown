@@ -1,14 +1,17 @@
 import { connect } from "react-redux";
-import { updatePersonOnConquerForm } from "../../actions";
+import { setConquerFormError, updatePersonOnConquerForm } from "../../actions";
 
 const mapStateToProps = state => ({
-  people: state.people
+  people: state.people,
+  selectedPeople: state.ui.conquerFormState.selectedPeople
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   updatePersonOnConquerForm: person => () => {
-    console.log("holla ", person.firstName);
-    return dispatch(updatePersonOnConquerForm(person));
+    return (
+      dispatch(setConquerFormError(undefined)) &&
+      dispatch(updatePersonOnConquerForm(person))
+    );
   }
 });
 

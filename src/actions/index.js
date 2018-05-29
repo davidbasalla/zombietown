@@ -31,3 +31,12 @@ export const updatePersonOnConquerForm = person => ({
   type: "UPDATE_PERSON_ON_CONQUER_FORM",
   person
 });
+
+export const clearSelectedPeople = () => ({
+  type: "CLEAR_SELECTED_PEOPLE"
+});
+
+export const setConquerFormError = message => ({
+  type: "SET_ERROR_ON_CONQUER_FORM",
+  message
+});

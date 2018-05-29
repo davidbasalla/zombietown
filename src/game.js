@@ -39,7 +39,8 @@ export default class Game {
       displayConquerForm: false,
       ui: {
         conquerFormState: {
-          selectedPeople: []
+          selectedPeople: [],
+          error: undefined
         }
       }
     };

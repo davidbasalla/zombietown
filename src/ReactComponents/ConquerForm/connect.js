@@ -1,5 +1,10 @@
 import { connect } from "react-redux";
-import { conquer, toggleForm } from "../../actions";
+import {
+  clearSelectedPeople,
+  conquer,
+  setConquerFormError,
+  toggleForm
+} from "../../actions";
 
 const getSelectedPeople = state => {
   const selectedPeopleIds = state.ui.conquerFormState.selectedPeople;
@@ -12,14 +17,25 @@ const getSelectedPeople = state => {
 
 const mapStateToProps = state => ({
   display: state.displayConquerForm,
+  error: state.ui.conquerFormState.error,
   selectedTile: state.selectedTile,
   selectedPeople: getSelectedPeople(state)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    conquerAction: (tile, people) =>
-      dispatch(conquer(tile, people)) && dispatch(toggleForm()),
+    conquerAction: (tile, people) => {
+      if (people.length < 1) {
+        return dispatch(setConquerFormError("No people selected"));
+      } else {
+        return (
+          dispatch(setConquerFormError(undefined)) &&
+          dispatch(clearSelectedPeople()) &&
+          dispatch(conquer(tile, people)) &&
+          dispatch(toggleForm())
+        );
+      }
+    },
     toggleFormAction: () => dispatch(toggleForm())
   };
 };
