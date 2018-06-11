@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import MainMenu from "../MainMenu";
 import PeopleMenu from "../PeopleMenu";
 import ConquerForm from "../ConquerForm";
+import EventScreen from "../EventScreen";
 
 import styles from "./style.css";
 
@@ -27,6 +28,7 @@ const MenuContainer = () => {
         </Tabs>
       </div>
       <ConquerForm />
+      <EventScreen />
     </div>
   );
 };

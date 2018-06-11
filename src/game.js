@@ -42,7 +42,8 @@ export default class Game {
         conquerFormState: {
           selectedPeople: [],
           error: undefined
-        }
+        },
+        eventMessages: ["Welcome to Zombietown!"]
       }
     };
 

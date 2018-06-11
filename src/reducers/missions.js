@@ -10,6 +10,10 @@ const missions = (state = [], action) => {
 
       return [...state, mission];
     case "END_TURN":
+      // add a chance to fail here!
+      // calc the probability of success
+      // fail mission, maybe even kill a person
+
       const updatedMissions = state.map(mission => ({
         ...mission,
         turnCounter: mission.turnCounter > 0 ? mission.turnCounter - 1 : 0

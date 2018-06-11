@@ -1,0 +1,24 @@
+.eventScreen {
+  margin-left: 300px;
+  margin-top: 200px;
+  height: 200px;
+  width: 400px;
+  border-style: solid;
+  border-color: darkgray;
+  background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  pointer-events: auto;
+}
+
+.buttonContainer {
+  padding-top: 30px;
+}
+
+.button {
+  height: 50px;
+  width: 100%;
+  font-size: 18px;
+}
