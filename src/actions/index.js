@@ -40,3 +40,8 @@ export const setConquerFormError = message => ({
   type: "SET_ERROR_ON_CONQUER_FORM",
   message
 });
+
+export const updateFoodAmount = foodAmount => ({
+  type: "UPDATE_FOOD_AMOUNT",
+  foodAmount
+});

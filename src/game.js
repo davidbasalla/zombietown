@@ -4,7 +4,8 @@ import { TrackballControls } from "three-trackballcontrols";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
 import rootReducer from "./reducers";
 import { addTiles, selectTile, updateMaxPopulation } from "./actions";
@@ -55,7 +56,11 @@ export default class Game {
     this.processCanvasClick = this.processCanvasClick.bind(this);
 
     //Redux store
-    this.store = createStore(rootReducer, this.defaultState);
+    this.store = createStore(
+      rootReducer,
+      this.defaultState,
+      applyMiddleware(thunk)
+    );
     this.store.subscribe(() => this.processStateUpdate());
   }
 

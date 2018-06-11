@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { endTurn, toggleForm } from "../../actions";
+import { processEndOfTurn } from "../../reducers";
 import {
   getActiveMissions,
   getFoodGrowth,
@@ -11,6 +12,11 @@ const mapStateToProps = state => {
     mission => state.selectedTile == mission.tile
   );
 
+  const foodGrowthValue = getFoodGrowth(state);
+  const foodGrowthString = `${
+    foodGrowthValue >= 0 ? "+" : "-"
+  }${foodGrowthValue}`;
+
   return {
     turn: state.turn,
     selectedTile: state.selectedTile,
@@ -18,18 +24,35 @@ const mapStateToProps = state => {
     currentPopulation: state.population,
     maxPopulation: getMaxPopulation(state),
     food: state.foodAmount,
-    foodGrowth: getFoodGrowth(state),
+    foodGrowth: foodGrowthString,
     showConquerButton: !state.selectedTile.taken && !missionForSelectedTile,
     displayConquerForm: state.displayConquerForm,
-    activeMissions: getActiveMissions(state)
+    activeMissions: getActiveMissions(state),
+    state: state
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    endTurnAction: activeMissions => dispatch(endTurn(activeMissions)),
+    endTurnActionOnly: activeMissions => dispatch(endTurn(activeMissions)),
+    processEndOfTurn: state => dispatch(processEndOfTurn(state)),
     toggleFormAction: () => dispatch(toggleForm())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps);
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const updatedDispatchProps = {
+    ...dispatchProps,
+    endTurnAction: activeMissions =>
+      dispatchProps.endTurnActionOnly(activeMissions) &&
+      dispatchProps.processEndOfTurn(stateProps.state)
+  };
+
+  return {
+    ...stateProps,
+    ...updatedDispatchProps,
+    ...ownProps
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps);

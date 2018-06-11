@@ -2,6 +2,8 @@ import { flatten } from "ramda";
 
 import { combineReducers } from "redux";
 
+import { updateFoodAmount } from "../actions";
+
 import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
 import missions from "./missions";
@@ -25,6 +27,16 @@ const reducer = combineReducers({
   ui
 });
 
+// thunk
+export const processEndOfTurn = currentState => {
+  return (dispatch, getState) => {
+    // use currentState rather than getState as we only want to apply
+    // the food growth _next_ turn
+    const amount = getFoodGrowth(currentState);
+    dispatch(updateFoodAmount(amount));
+  };
+};
+
 // selector for food growth
 export const getFoodGrowth = state => {
   const addFoodGrowth = (total, tile) => {
@@ -37,8 +49,7 @@ export const getFoodGrowth = state => {
   const takenTiles = state.tiles.filter(tile => tile.taken);
   const grossGrowth = takenTiles.reduce(addFoodGrowth, 0);
   const netGrowth = grossGrowth - state.population;
-
-  return `${netGrowth >= 0 ? "+" : "-"}${netGrowth}`;
+  return netGrowth;
 };
 
 // selector for max population
