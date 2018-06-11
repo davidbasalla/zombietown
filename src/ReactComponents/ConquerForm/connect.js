@@ -15,12 +15,24 @@ const getSelectedPeople = state => {
   return selectedPeople;
 };
 
-const mapStateToProps = state => ({
-  display: state.displayConquerForm,
-  error: state.ui.conquerFormState.error,
-  selectedTile: state.selectedTile,
-  selectedPeople: getSelectedPeople(state)
-});
+const getSuccessPropability = people => {
+  if (people.length < 1) return 0;
+  if (people.length >= 3) return 100;
+
+  return people.length * 33.33;
+};
+
+const mapStateToProps = state => {
+  const people = getSelectedPeople(state);
+
+  return {
+    display: state.displayConquerForm,
+    error: state.ui.conquerFormState.error,
+    selectedTile: state.selectedTile,
+    selectedPeople: people,
+    successProbability: getSuccessPropability(people)
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

@@ -9,6 +9,7 @@ const ConquerForm = ({
   selectedPeople,
   selectedTile,
   conquerAction,
+  successProbability,
   toggleFormAction
 }) => {
   return (
@@ -19,7 +20,7 @@ const ConquerForm = ({
 
       <PeopleCheckboxContainer />
 
-      <p>Chance of success: 0%</p>
+      <p>{`Chance of success: ${successProbability}%`}</p>
 
       {error && <div className="error">Error: {error}</div>}
 
