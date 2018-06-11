@@ -2,7 +2,7 @@ import { flatten } from "ramda";
 
 import { combineReducers } from "redux";
 
-import { updateFoodAmount } from "../actions";
+import { updateFoodAmount, addEventMessage } from "../actions";
 
 import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
@@ -30,7 +30,20 @@ const reducer = combineReducers({
 // thunk
 export const processEndOfTurn = currentState => {
   return (dispatch, getState) => {
-    // use currentState rather than getState as we only want to apply
+    // Add event messages for taken tiles
+    const oldTakenTiles = currentState.tiles.filter(tile => tile.taken);
+    const newTakenTiles = getState().tiles.filter(tile => tile.taken);
+    const tilesToAdd = newTakenTiles.filter(
+      tile => !oldTakenTiles.includes(tile)
+    );
+
+    tilesToAdd.forEach(tile => {
+      const message = `${tile.displayName} was conquered`;
+      dispatch(addEventMessage(message));
+    });
+
+    // Update the food amount
+    // ...use currentState rather than getState as we only want to apply
     // the food growth _next_ turn
     const amount = getFoodGrowth(currentState);
     dispatch(updateFoodAmount(amount));

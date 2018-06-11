@@ -40,6 +40,11 @@ const ui = (state = {}, action) => {
           selectedPeople: []
         }
       };
+    case "ADD_EVENT_MESSAGE":
+      return {
+        ...state,
+        eventMessages: [...state.eventMessages, action.content]
+      };
     case "REMOVE_EVENT_MESSAGE":
       const eventMessages = state.eventMessages.slice(0, -1);
       return {

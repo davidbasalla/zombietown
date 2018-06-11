@@ -46,6 +46,11 @@ export const updateFoodAmount = foodAmount => ({
   foodAmount
 });
 
+export const addEventMessage = content => ({
+  type: "ADD_EVENT_MESSAGE",
+  content
+});
+
 export const removeEventMessage = () => ({
   type: "REMOVE_EVENT_MESSAGE"
 });
