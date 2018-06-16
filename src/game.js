@@ -268,7 +268,8 @@ export default class Game {
           z * multiplier,
           taken
         ),
-        taken: taken
+        taken: taken,
+        conquerCounter: gridTiles[tileName].conquerCounter
       });
     });
 

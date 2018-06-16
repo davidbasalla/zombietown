@@ -3,7 +3,7 @@ const missions = (state = [], action) => {
     case "CONQUER_TILE":
       const mission = {
         people: action.people,
-        turnCounter: 3, //default
+        turnCounter: action.conquerCounter, //default
         type: "MISSION_CONQUER_TILE",
         tile: action.tile
       };

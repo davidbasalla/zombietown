@@ -4,6 +4,7 @@ import styles from "./style.css";
 import PeopleCheckboxContainer from "../PeopleCheckboxContainer";
 
 const ConquerForm = ({
+  conquerCounter,
   display,
   error,
   selectedPeople,
@@ -16,6 +17,8 @@ const ConquerForm = ({
     <div style={display ? {} : { display: "none" }} className="conquerForm">
       <h2>Conquer tile</h2>
 
+      <p>{`This building will take ${conquerCounter} days to conquer`}</p>
+
       <p>How many survivors will you send?</p>
 
       <PeopleCheckboxContainer />
@@ -27,7 +30,9 @@ const ConquerForm = ({
       <div className="buttonContainer">
         <button
           className="button"
-          onClick={() => conquerAction(selectedTile, selectedPeople)}
+          onClick={() =>
+            conquerAction(selectedTile, selectedPeople, conquerCounter)
+          }
         >
           Conquer
         </button>

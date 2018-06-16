@@ -13,7 +13,8 @@ export default [
     assets: assetsSmallResidential,
     resourceAttributes: {
       populationSpace: 2
-    }
+    },
+    conquerCounter: 2
   },
   {
     name: "tallResidential",
@@ -21,13 +22,15 @@ export default [
     assets: assetsTallResidential,
     resourceAttributes: {
       populationSpace: 5
-    }
+    },
+    conquerCounter: 3
   },
   {
     name: "factory",
     displayName: "Factory",
     assets: assetsFactory,
-    resourceAttributes: {}
+    resourceAttributes: {},
+    conquerCounter: 3
   },
   {
     name: "supermarket",
@@ -35,7 +38,8 @@ export default [
     assets: assetsSupermarket,
     resourceAttributes: {
       foodGrowth: 5
-    }
+    },
+    conquerCounter: 4
   },
   {
     name: "stadium",
@@ -43,13 +47,15 @@ export default [
     assets: assetsStadium,
     resourceAttributes: {
       populationSpace: 8
-    }
+    },
+    conquerCounter: 4
   },
   {
     name: "gasStation",
     displayName: "Petrol station",
     assets: assetsGasStation,
-    resourceAttributes: {}
+    resourceAttributes: {},
+    conquerCounter: 2
   },
   {
     name: "mall",
@@ -57,6 +63,7 @@ export default [
     assets: assetsMall,
     resourceAttributes: {
       foodGrowth: 2
-    }
+    },
+    conquerCounter: 3
   }
 ];

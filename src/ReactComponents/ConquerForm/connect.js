@@ -26,6 +26,7 @@ const mapStateToProps = state => {
   const people = getSelectedPeople(state);
 
   return {
+    conquerCounter: state.selectedTile.conquerCounter,
     display: state.displayConquerForm,
     error: state.ui.conquerFormState.error,
     selectedTile: state.selectedTile,
@@ -36,14 +37,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    conquerAction: (tile, people) => {
+    conquerAction: (tile, people, conquerCounter) => {
       if (people.length < 1) {
         return dispatch(setConquerFormError("No people selected"));
       } else {
         return (
           dispatch(setConquerFormError(undefined)) &&
           dispatch(clearSelectedPeople()) &&
-          dispatch(conquer(tile, people)) &&
+          dispatch(conquer(tile, people, conquerCounter)) &&
           dispatch(toggleForm())
         );
       }
