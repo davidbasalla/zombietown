@@ -8,7 +8,6 @@ import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
 import missions from "./missions";
 import people from "./people";
-import population from "./population";
 import selectedTile from "./selectedTile";
 import tiles from "./tiles";
 import turn from "./turn";
@@ -20,7 +19,6 @@ const reducer = combineReducers({
   foodAmount,
   missions,
   people,
-  population,
   selectedTile,
   tiles,
   turn,
@@ -61,7 +59,7 @@ export const getFoodGrowth = state => {
 
   const takenTiles = state.tiles.filter(tile => tile.taken);
   const grossGrowth = takenTiles.reduce(addFoodGrowth, 0);
-  const netGrowth = grossGrowth - state.population;
+  const netGrowth = grossGrowth - state.people.length;
   return netGrowth;
 };
 

@@ -28,7 +28,6 @@ export default class Game {
     this.scene = new THREE.Scene();
     this.defaultState = {
       turn: 1,
-      population: 4,
       foodAmount: 5,
       selectedTile: {
         displayName: "Nothing selected",

@@ -56,7 +56,7 @@ export default [
     displayName: "Shopping mall",
     assets: assetsMall,
     resourceAttributes: {
-      foodGrowth: 4
+      foodGrowth: 2
     }
   }
 ];

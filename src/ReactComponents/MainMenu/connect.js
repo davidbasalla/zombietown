@@ -14,14 +14,14 @@ const mapStateToProps = state => {
 
   const foodGrowthValue = getFoodGrowth(state);
   const foodGrowthString = `${
-    foodGrowthValue >= 0 ? "+" : "-"
+    foodGrowthValue >= 0 ? "+" : ""
   }${foodGrowthValue}`;
 
   return {
     turn: state.turn,
     selectedTile: state.selectedTile,
     missionForSelectedTile: missionForSelectedTile,
-    currentPopulation: state.population,
+    currentPopulation: state.people.length,
     maxPopulation: getMaxPopulation(state),
     food: state.foodAmount,
     foodGrowth: foodGrowthString,
