@@ -10,7 +10,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 import { addTiles, selectTile, updateMaxPopulation } from "./actions";
 
-import srcModelsDefs from "./buildings.js";
+import srcModelsDefs from "./srcModelsDefs.js";
 import people from "./people";
 import gridTiles from "./gridTiles";
 import MenuContainer from "./ReactComponents/MenuContainer";
