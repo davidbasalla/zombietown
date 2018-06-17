@@ -5,11 +5,13 @@ import {
   setConquerFormError,
   toggleForm
 } from "../../actions";
+import { getDiscoveredPeople } from "../../reducers";
 
 const getSelectedPeople = state => {
   const selectedPeopleIds = state.ui.conquerFormState.selectedPeople;
+  const discoveredPeople = getDiscoveredPeople(state);
   const selectedPeople = selectedPeopleIds.map(id =>
-    state.people.find(person => id === person.id)
+    discoveredPeople.find(person => id === person.id)
   );
 
   return selectedPeople;

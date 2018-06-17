@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 
-import { getPeopleOnMissions } from "../../reducers";
+import { getDiscoveredPeople, getPeopleOnMissions } from "../../reducers";
 
 const mapStateToProps = state => ({
-  people: state.people,
+  people: getDiscoveredPeople(state),
   peopleOnMissions: getPeopleOnMissions(state)
 });
 

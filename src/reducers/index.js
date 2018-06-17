@@ -59,7 +59,7 @@ export const getFoodGrowth = state => {
 
   const takenTiles = state.tiles.filter(tile => tile.taken);
   const grossGrowth = takenTiles.reduce(addFoodGrowth, 0);
-  const netGrowth = grossGrowth - state.people.length;
+  const netGrowth = grossGrowth - getDiscoveredPeople(state).length;
   return netGrowth;
 };
 
@@ -84,13 +84,20 @@ export const getActiveMissions = state =>
   );
 
 // selector for people on missions
+export const getDiscoveredPeople = state => {
+  return state.people.filter(p => p.discovered);
+};
+
+// selector for people on missions
 export const getPeopleOnMissions = state => {
   const activeMissions = getActiveMissions(state);
   const peopleInMissions = flatten(
     activeMissions.map(mission => mission.people)
   );
   const peopleInMissionsIds = peopleInMissions.map(person => person.id);
-  return state.people.filter(person => peopleInMissionsIds.includes(person.id));
+  return getDiscoveredPeople(state).filter(person =>
+    peopleInMissionsIds.includes(person.id)
+  );
 };
 
 // selector for available people
@@ -102,7 +109,7 @@ export const getAvailablePeople = state => {
 
   const peopleInMissionsIds = peopleInMissions.map(person => person.id);
 
-  return state.people.filter(
+  return getDiscoveredPeople(state).filter(
     person => !peopleInMissionsIds.includes(person.id)
   );
 };

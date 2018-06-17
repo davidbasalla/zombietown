@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { endTurn, toggleForm } from "../../actions";
-import { processEndOfTurn } from "../../reducers";
+import { processEndOfTurn, getDiscoveredPeople } from "../../reducers";
 import {
   getActiveMissions,
   getFoodGrowth,
@@ -21,7 +21,7 @@ const mapStateToProps = state => {
     turn: state.turn,
     selectedTile: state.selectedTile,
     missionForSelectedTile: missionForSelectedTile,
-    currentPopulation: state.people.length,
+    currentPopulation: getDiscoveredPeople(state).length,
     maxPopulation: getMaxPopulation(state),
     food: state.foodAmount,
     foodGrowth: foodGrowthString,
