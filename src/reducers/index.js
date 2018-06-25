@@ -2,7 +2,7 @@ import { flatten } from "ramda";
 
 import { combineReducers } from "redux";
 
-import { updateFoodAmount, addEventMessage } from "../actions";
+import { addEventMessage, addPerson, updateFoodAmount } from "../actions";
 
 import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
@@ -37,7 +37,20 @@ export const processEndOfTurn = currentState => {
 
     tilesToAdd.forEach(tile => {
       const message = `${tile.displayName} was conquered`;
-      dispatch(addEventMessage(message));
+      const messages = [message];
+
+      // Add a person
+      const undiscoveredPeople = getUndiscoveredPeople(currentState);
+      const newPerson = undiscoveredPeople.length && undiscoveredPeople[0];
+      const newPersonName =
+        newPerson && `${newPerson.firstName} ${newPerson.lastName}`;
+      const peopleMessage = `You found a survivor, ${newPersonName}`;
+      if (newPerson) {
+        dispatch(addPerson(newPerson));
+        messages.push(peopleMessage);
+      }
+
+      dispatch(addEventMessage(messages.join(". ")));
     });
 
     // Update the food amount
@@ -86,6 +99,11 @@ export const getActiveMissions = state =>
 // selector for people on missions
 export const getDiscoveredPeople = state => {
   return state.people.filter(p => p.discovered);
+};
+
+// selector for undiscovered people on missions
+export const getUndiscoveredPeople = state => {
+  return state.people.filter(p => !p.discovered);
 };
 
 // selector for people on missions

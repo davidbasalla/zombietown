@@ -47,5 +47,75 @@ export default [
     nickName: "Auntie",
     lastName: "Grey",
     discovered: false
+  },
+  {
+    id: 7,
+    firstName: "Vic",
+    nickName: "Woodchuck",
+    lastName: "Roberts",
+    discovered: false
+  },
+  {
+    id: 8,
+    firstName: "Jordan",
+    nickName: "The Chainsaw",
+    lastName: "Moore",
+    discovered: false
+  },
+  {
+    id: 9,
+    firstName: "Terry",
+    nickName: "Big boy",
+    lastName: "White",
+    discovered: false
+  },
+  {
+    id: 10,
+    firstName: "Danni",
+    nickName: "The Snake",
+    lastName: "Stewart",
+    discovered: false
+  },
+  {
+    id: 11,
+    firstName: "Lee",
+    nickName: "Killjoy",
+    lastName: "Brooks",
+    discovered: false
+  },
+  {
+    id: 12,
+    firstName: "Alex",
+    nickName: "The Knife",
+    lastName: "Fletcher",
+    discovered: false
+  },
+  {
+    id: 13,
+    firstName: "Drew",
+    nickName: "Big Momma",
+    lastName: "Evans",
+    discovered: false
+  },
+  {
+    id: 14,
+    firstName: "Billy",
+    nickName: "The Kid",
+    lastName: "Moore",
+    discovered: false
+  },
+  {
+    id: 15,
+    firstName: "Haiden",
+    nickName: "The face",
+    lastName: "Schneider",
+    discovered: false
+  },
+  {
+    id: 16,
+    firstName: "Gene",
+    nickName: "Killmonger",
+    lastName: "Santiago",
+    discovered: false
   }
 ];

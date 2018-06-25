@@ -55,3 +55,8 @@ export const addEventMessage = content => ({
 export const removeEventMessage = () => ({
   type: "REMOVE_EVENT_MESSAGE"
 });
+
+export const addPerson = person => ({
+  type: "ADD_PERSON",
+  person
+});
