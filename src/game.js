@@ -16,11 +16,12 @@ import gridTiles from "./gridTiles";
 import MenuContainer from "./ReactComponents/MenuContainer";
 
 const COLOR_GREEN = 0x00ff00;
-const COLOR_GREEN_GROUND = 0x44bb44;
-const COLOR_GREY_DARK = 0x555555;
+const COLOR_GRASS_GREEN = 0x44bb44;
+const COLOR_GREY_DARK = 0x404040;
 const COLOR_GREY_MID = 0x888888;
 const COLOR_GREY_GREEN = 0x556655;
 const COLOR_WHITE = 0xffffff;
+const COLOR_BLACK = 0x000000;
 const DEGREES_90 = 1.5708;
 
 export default class Game {
@@ -42,7 +43,9 @@ export default class Game {
           selectedPeople: [],
           error: undefined
         },
-        eventMessages: ["Welcome to Zombietown!"]
+        eventMessages: [
+          // "Welcome to Zombietown!"
+        ]
       }
     };
 
@@ -95,7 +98,7 @@ export default class Game {
 
   setupCamera() {
     const aspect = window.innerWidth / window.innerHeight;
-    const d = 40;
+    const d = 38;
     const offsetX = 8;
     const offsetY = 8;
     const camera = new THREE.OrthographicCamera(
@@ -250,18 +253,21 @@ export default class Game {
     filteredCoords.push([-1, 0, "5", true]); //gasStation
     filteredCoords.push([-1, -1, "1", true]); //tallResidential
 
+    const visibleTiles = [];
+
     filteredCoords.forEach(coord => {
       const x = coord[0];
       const z = coord[1];
       const tileName = coord[2];
       const taken = coord[3] || false;
-
-      this.createdTiles.push({
+      const visible = this.createdTiles.push({
         name: gridTiles[tileName].name,
         displayName: gridTiles[tileName].displayName,
         resourceAttributes: gridTiles[tileName].resourceAttributes,
         tile: this.createSelectableTile(x * multiplier, z * multiplier),
         displayTile: this.createDisplayTile(x * multiplier, z * multiplier),
+        fogTile: this.createFogTile(x * multiplier, z * multiplier),
+        position: { x: x, z: z },
         assets: this.createTile(
           tileName,
           x * multiplier,
@@ -357,7 +363,7 @@ export default class Game {
   createTileGround(x, z, taken) {
     const geometry = new THREE.PlaneGeometry(20, 20, 32);
     const planeMaterial = new THREE.MeshStandardMaterial({
-      color: COLOR_GREEN_GROUND,
+      color: COLOR_GRASS_GREEN,
       side: THREE.DoubleSide
     });
 
@@ -366,6 +372,25 @@ export default class Game {
     this.scene.add(plane);
     plane.rotation.x = DEGREES_90;
     plane.position.set(x + 10, -0.25, z - 10);
+    return plane;
+  }
+
+  createFogTile(x, z) {
+    const geometry = new THREE.PlaneGeometry(23.4, 23.4, 32);
+    const planeMaterial = new THREE.MeshStandardMaterial({
+      color: COLOR_BLACK,
+      opacity: 0.75,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+
+    const plane = new THREE.Mesh(geometry, planeMaterial);
+    plane.castShadow = false;
+    plane.receiveShadow = false;
+    this.scene.add(plane);
+    plane.rotation.x = DEGREES_90;
+    plane.position.set(x + 25, 10, z + 2);
+
     return plane;
   }
 

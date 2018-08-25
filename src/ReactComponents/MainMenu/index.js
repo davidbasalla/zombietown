@@ -50,7 +50,10 @@ const MainMenu = ({
 
       <hr />
 
-      <h4 className="selected">{selectedTile.displayName}</h4>
+      <h4 className="selected">
+        {selectedTile.displayName}
+        {selectedTile.taken ? " ✅🙍🏻‍" : " ❌💀"}
+      </h4>
       <div>{renderTileInfo(selectedTile, missionForSelectedTile)}</div>
 
       {showConquerButton && (
