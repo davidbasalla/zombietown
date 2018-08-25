@@ -23,6 +23,8 @@ const COLOR_GREY_GREEN = 0x556655;
 const COLOR_WHITE = 0xffffff;
 const COLOR_BLACK = 0x000000;
 const DEGREES_90 = 1.5708;
+const GRID_WIDTH = 12;
+const GRID_DEPTH = 12;
 
 export default class Game {
   constructor() {
@@ -98,7 +100,7 @@ export default class Game {
 
   setupCamera() {
     const aspect = window.innerWidth / window.innerHeight;
-    const d = 38;
+    const d = 45;
     const offsetX = 8;
     const offsetY = 8;
     const camera = new THREE.OrthographicCamera(
@@ -193,8 +195,8 @@ export default class Game {
     const multiplier = 23.4;
     const roadModels = this.originalModels["road"];
 
-    for (let x = -5; x < 5; x++) {
-      for (let z = -5; z < 5; z++) {
+    for (let x = -GRID_WIDTH / 2; x < GRID_WIDTH / 2; x++) {
+      for (let z = -GRID_DEPTH / 2; z < GRID_DEPTH / 2; z++) {
         const intersection = roadModels["roadIntersection"]["mesh"].clone();
         intersection.position.set(x * multiplier, 0, z * multiplier);
         this.scene.add(intersection);
@@ -229,8 +231,8 @@ export default class Game {
     const keys = Object.keys(gridTiles);
 
     const coordinates = [];
-    for (let x = -5; x < 5; x++) {
-      for (let z = -5; z < 5; z++) {
+    for (let x = -GRID_WIDTH / 2; x < GRID_WIDTH / 2; x++) {
+      for (let z = -GRID_DEPTH / 2; z < GRID_DEPTH / 2; z++) {
         const index = Math.floor(Math.random() * keys.length);
         const tileName = keys[index];
         coordinates.push([x, z, tileName]);
