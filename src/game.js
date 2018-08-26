@@ -308,22 +308,22 @@ export default class Game {
   createDisplayTile(x, z) {
     var geometry = new THREE.Geometry();
     geometry.vertices.push(
-      new THREE.Vector3(0, -5, 0),
+      new THREE.Vector3(0, -3, 0),
       new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(5, 0, 0),
-      new THREE.Vector3(5, -5, 0),
-      new THREE.Vector3(18, -5, 0),
-      new THREE.Vector3(18, 0, 0),
+      new THREE.Vector3(3, 0, 0),
+      new THREE.Vector3(3, -3, 0),
+      new THREE.Vector3(20, -3, 0),
+      new THREE.Vector3(20, 0, 0),
       new THREE.Vector3(23, 0, 0),
-      new THREE.Vector3(23, -5, 0),
-      new THREE.Vector3(23, -18, 0),
-      new THREE.Vector3(18, -18, 0),
+      new THREE.Vector3(23, -3, 0),
+      new THREE.Vector3(23, -20, 0),
+      new THREE.Vector3(20, -20, 0),
       new THREE.Vector3(23, -23, 0),
-      new THREE.Vector3(18, -23, 0),
-      new THREE.Vector3(5, -23, 0),
-      new THREE.Vector3(5, -18, 0),
+      new THREE.Vector3(20, -23, 0),
+      new THREE.Vector3(3, -23, 0),
+      new THREE.Vector3(3, -20, 0),
       new THREE.Vector3(0, -23, 0),
-      new THREE.Vector3(0, -18, 0)
+      new THREE.Vector3(0, -20, 0)
     );
 
     const faces = [
