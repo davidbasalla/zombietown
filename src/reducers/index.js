@@ -33,9 +33,6 @@ export const processEndOfTurn = currentState => {
     const oldTakenTilesIds = oldTakenTiles.map(t => t.id);
     const newTakenTiles = getState().tiles.filter(tile => tile.taken);
 
-    console.log("debug", oldTakenTiles.length);
-    console.log("debug2", newTakenTiles.length);
-
     const tilesToAdd = newTakenTiles.filter(
       t => !oldTakenTilesIds.includes(t.id)
     );
@@ -46,12 +43,12 @@ export const processEndOfTurn = currentState => {
 
       // Add a person
       const undiscoveredPeople = getUndiscoveredPeople(currentState);
-      const newPerson = undiscoveredPeople.length && undiscoveredPeople[0];
-      const newPersonName =
-        newPerson && `${newPerson.firstName} ${newPerson.lastName}`;
-      const peopleMessage = `You found a survivor, ${newPersonName}`;
-      if (newPerson) {
-        dispatch(addPerson(newPerson));
+      const person = undiscoveredPeople.length && undiscoveredPeople[0];
+      const personName =
+        person && `${person.firstName} ${person.lastName} ${person.icon}`;
+      const peopleMessage = `You found a survivor, ${personName}`;
+      if (person) {
+        dispatch(addPerson(person));
         messages.push(peopleMessage);
       }
 

@@ -14,7 +14,8 @@ const PeopleMenu = ({ peopleOnMissions, people }) => {
       <ul className="peopleList">
         {people.map(person => (
           <li key={person.firstName}>
-            {person.firstName} {person.lastName} {getStatus(person)}
+            {person.icon} {person.firstName} {person.lastName}{" "}
+            {getStatus(person)}
           </li>
         ))}{" "}
       </ul>
