@@ -257,12 +257,13 @@ export default class Game {
 
     const visibleTiles = [];
 
-    filteredCoords.forEach(coord => {
+    filteredCoords.forEach((coord, index) => {
       const x = coord[0];
       const z = coord[1];
       const tileName = coord[2];
       const taken = coord[3] || false;
       const visible = this.createdTiles.push({
+        id: index,
         name: gridTiles[tileName].name,
         displayName: gridTiles[tileName].displayName,
         resourceAttributes: gridTiles[tileName].resourceAttributes,

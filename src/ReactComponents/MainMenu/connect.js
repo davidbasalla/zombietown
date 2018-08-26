@@ -25,7 +25,10 @@ const mapStateToProps = state => {
     maxPopulation: getMaxPopulation(state),
     food: state.foodAmount,
     foodGrowth: foodGrowthString,
-    showConquerButton: !state.selectedTile.taken && !missionForSelectedTile,
+    showConquerButton:
+      !state.selectedTile.taken &&
+      !missionForSelectedTile &&
+      state.selectedTile.visible,
     displayConquerForm: state.displayConquerForm,
     activeMissions: getActiveMissions(state),
     state: state

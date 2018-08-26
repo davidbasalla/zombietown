@@ -30,9 +30,14 @@ export const processEndOfTurn = currentState => {
   return (dispatch, getState) => {
     // Add event messages for taken tiles
     const oldTakenTiles = currentState.tiles.filter(tile => tile.taken);
+    const oldTakenTilesIds = oldTakenTiles.map(t => t.id);
     const newTakenTiles = getState().tiles.filter(tile => tile.taken);
+
+    console.log("debug", oldTakenTiles.length);
+    console.log("debug2", newTakenTiles.length);
+
     const tilesToAdd = newTakenTiles.filter(
-      tile => !oldTakenTiles.includes(tile)
+      t => !oldTakenTilesIds.includes(t.id)
     );
 
     tilesToAdd.forEach(tile => {

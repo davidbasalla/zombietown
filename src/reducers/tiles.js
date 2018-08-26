@@ -30,14 +30,19 @@ const getNeighbours = (tile, tiles) => {
 const tiles = (state = [], action) => {
   switch (action.type) {
     case "ADD_TILES":
-      const tiles = action.tiles;
-      tiles.forEach(tile => {
-        if (isVisible(tile, tiles)) {
+      const tiles = action.tiles.map(tile => {
+        const visible = isVisible(tile, action.tiles);
+        if (visible) {
           tile.fogTile.material.opacity = 0.0;
         }
+
+        return {
+          ...tile,
+          visible: visible
+        };
       });
 
-      return (state = tiles);
+      return tiles;
     case "END_TURN":
       const conqueringMissions = action.activeMissions.filter(
         m => m.turnCounter == 1
@@ -61,13 +66,18 @@ const tiles = (state = [], action) => {
 
         // UPDATE FOG OF WAR
         const updatedTiles = [...tilesToBeLeftAlone, ...conqueredTiles];
-        updatedTiles.forEach(tile => {
-          if (isVisible(tile, updatedTiles)) {
+        const tilesWithVis = updatedTiles.map(tile => {
+          const visible = isVisible(tile, updatedTiles);
+          if (visible) {
             tile.fogTile.material.opacity = 0.0;
           }
-        });
 
-        return updatedTiles;
+          return {
+            ...tile,
+            visible: visible
+          };
+        });
+        return tilesWithVis;
       } else {
         return state;
       }
