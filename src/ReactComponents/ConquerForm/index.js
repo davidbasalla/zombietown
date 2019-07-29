@@ -15,11 +15,11 @@ const ConquerForm = ({
 }) => {
   return (
     <div style={display ? {} : { display: "none" }} className="conquerForm">
-      <h2>Conquer tile</h2>
+      <h3>Conquer tile</h3>
 
-      <p>{`This building will take ${conquerCounter} days to conquer`}</p>
+      <h4>{`This building will take ${conquerCounter} days to conquer`}</h4>
 
-      <p>How many survivors will you send?</p>
+      <p>Who will you send?</p>
 
       <PeopleCheckboxContainer />
 

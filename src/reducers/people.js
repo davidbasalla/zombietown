@@ -9,6 +9,8 @@ const people = (state = {}, action) => {
       });
 
       return people;
+    case "INCAPACITATE_PERSON":
+      return state;
     default:
       return state;
   }

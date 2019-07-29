@@ -13,7 +13,7 @@ const PeopleCheckboxContainer = ({
 
   const renderPersonOption = person => (
     <Checkbox
-      label={person.firstName}
+      label={` ${person.icon} ${person.firstName} ${person.lastName}`}
       checked={isPersonSelected(person)}
       handleCheckboxChange={updatePersonOnConquerForm(person)}
       key={person.firstName}

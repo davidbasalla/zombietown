@@ -5,7 +5,8 @@ export default [
     nickName: "The Doctor",
     lastName: "Bartmann",
     discovered: true,
-    icon: "👩🏻"
+    icon: "👩🏻",
+    incapacitated: false
   },
   {
     id: 1,
@@ -13,7 +14,8 @@ export default [
     nickName: "The Coder",
     lastName: "Basalla",
     discovered: true,
-    icon: "👨🏻"
+    icon: "👨🏻",
+    incapacitated: false
   },
   {
     id: 2,
@@ -21,7 +23,8 @@ export default [
     nickName: "Mad Dog",
     lastName: "Walker",
     discovered: true,
-    icon: "👱🏻"
+    icon: "👱🏻",
+    incapacitated: false
   },
   {
     id: 3,
@@ -29,7 +32,8 @@ export default [
     nickName: "Fast Wheels",
     lastName: "Farrah",
     discovered: true,
-    icon: "👳🏾"
+    icon: "👳🏾",
+    incapacitated: false
   },
   {
     id: 4,
@@ -37,7 +41,8 @@ export default [
     nickName: "The Duchess",
     lastName: "von Plunderberry",
     discovered: true,
-    icon: "👩🏼"
+    icon: "👩🏼",
+    incapacitated: false
   },
   {
     id: 5,
@@ -45,7 +50,8 @@ export default [
     nickName: "The Lobotomiser",
     lastName: "McFallon",
     discovered: false,
-    icon: "👨🏿"
+    icon: "👨🏿",
+    incapacitated: false
   },
   {
     id: 6,
@@ -53,7 +59,8 @@ export default [
     nickName: "Auntie",
     lastName: "Grey",
     discovered: false,
-    icon: "👵🏽"
+    icon: "👵🏽",
+    incapacitated: false
   },
   {
     id: 7,
@@ -61,7 +68,8 @@ export default [
     nickName: "Woodchuck",
     lastName: "Roberts",
     discovered: false,
-    icon: "👩🏻"
+    icon: "👩🏻",
+    incapacitated: false
   },
   {
     id: 8,
@@ -69,7 +77,8 @@ export default [
     nickName: "The Chainsaw",
     lastName: "Moore",
     discovered: false,
-    icon: "👨🏾"
+    icon: "👨🏾",
+    incapacitated: false
   },
   {
     id: 9,
@@ -77,7 +86,8 @@ export default [
     nickName: "Big boy",
     lastName: "White",
     discovered: false,
-    icon: "👩🏻"
+    icon: "👩🏻",
+    incapacitated: false
   },
   {
     id: 10,
@@ -85,7 +95,8 @@ export default [
     nickName: "The Snake",
     lastName: "Stewart",
     discovered: false,
-    icon: "👩🏾"
+    icon: "👩🏾",
+    incapacitated: false
   },
   {
     id: 11,
@@ -93,7 +104,8 @@ export default [
     nickName: "Killjoy",
     lastName: "Brooks",
     discovered: false,
-    icon: "👱🏽"
+    icon: "👱🏽",
+    incapacitated: false
   },
   {
     id: 12,
@@ -101,7 +113,8 @@ export default [
     nickName: "The Knife",
     lastName: "Fletcher",
     discovered: false,
-    icon: "👩🏻"
+    icon: "👩🏻",
+    incapacitated: false
   },
   {
     id: 13,
@@ -109,7 +122,8 @@ export default [
     nickName: "Big Momma",
     lastName: "Evans",
     discovered: false,
-    icon: "👵🏾"
+    icon: "👵🏾",
+    incapacitated: false
   },
   {
     id: 14,
@@ -117,7 +131,8 @@ export default [
     nickName: "The Kid",
     lastName: "Moore",
     discovered: false,
-    icon: "👦🏻"
+    icon: "👦🏻",
+    incapacitated: false
   },
   {
     id: 15,
@@ -125,7 +140,8 @@ export default [
     nickName: "The face",
     lastName: "Schneider",
     discovered: false,
-    icon: "🤵🏼"
+    icon: "🤵🏼",
+    incapacitated: false
   },
   {
     id: 16,
@@ -133,6 +149,7 @@ export default [
     nickName: "Killmonger",
     lastName: "Santiago",
     discovered: false,
-    icon: "👨🏼"
+    icon: "👨🏼",
+    incapacitated: false
   }
 ];

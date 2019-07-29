@@ -59,7 +59,18 @@ export const processEndOfTurn = currentState => {
     // ...use currentState rather than getState as we only want to apply
     // the food growth _next_ turn
     const amount = getFoodGrowth(currentState);
+
     dispatch(updateFoodAmount(amount));
+    if (currentState.foodAmount <= 1 && amount <= 0)
+      dispatch(
+        addEventMessage(
+          "❌ There is no more food. People are passing out from hunger!"
+        )
+      );
+
+    if (currentState.turn == 2) {
+      console.log("TRIGGER THE ZOMBIE HORDE");
+    }
   };
 };
 
