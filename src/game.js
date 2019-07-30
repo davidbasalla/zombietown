@@ -450,6 +450,10 @@ export default class Game {
 
       tiles.forEach(x => (x.displayTile.material.opacity = 0));
 
+      // this seems like it should be side effect of the selectTile action
+      // Try updating that first
+      // Second, try just havig one displayTile instead of multiple (should be more performant)
+      // Third, adapt this mechanism for the zombie horde
       gridTile.displayTile.material.opacity = 0.5;
 
       this.renderMenu();

@@ -2,7 +2,12 @@ import { flatten } from "ramda";
 
 import { combineReducers } from "redux";
 
-import { addEventMessage, addPerson, updateFoodAmount } from "../actions";
+import {
+  addEventMessage,
+  addPerson,
+  createZombieHorde,
+  updateFoodAmount
+} from "../actions";
 
 import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
@@ -12,6 +17,7 @@ import selectedTile from "./selectedTile";
 import tiles from "./tiles";
 import turn from "./turn";
 import ui from "./ui";
+import zombieHordes from "./zombieHordes";
 
 // main reducer
 const reducer = combineReducers({
@@ -22,7 +28,8 @@ const reducer = combineReducers({
   selectedTile,
   tiles,
   turn,
-  ui
+  ui,
+  zombieHordes
 });
 
 // thunk
@@ -70,6 +77,9 @@ export const processEndOfTurn = currentState => {
 
     if (currentState.turn == 2) {
       console.log("TRIGGER THE ZOMBIE HORDE");
+
+      const position = [3, 3];
+      dispatch(createZombieHorde(position));
     }
   };
 };

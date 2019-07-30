@@ -60,3 +60,8 @@ export const addPerson = person => ({
   type: "ADD_PERSON",
   person
 });
+
+export const createZombieHorde = position => ({
+  type: "CREATE_ZOMBIE_HORDE",
+  position
+});
