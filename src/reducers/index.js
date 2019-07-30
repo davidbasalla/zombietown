@@ -42,21 +42,27 @@ const reducer = combineReducers({
 });
 
 const createZombieTile = (scene, position) => {
-  const geometry = createOutlineTile();
+  const geometry = new THREE.PlaneGeometry(7, 7, 32);
   const multiplier = 23.4;
 
   const material = new THREE.MeshBasicMaterial({
-    color: COLOR_RED,
-    opacity: 0.5,
+    opacity: 1,
     transparent: true,
     side: THREE.DoubleSide
   });
+  material.map = new THREE.TextureLoader().load(
+    "../assets/icons/zombie_128x128.png"
+  );
 
   const tile = new THREE.Mesh(geometry, material);
   tile.castShadow = false;
   tile.receiveShadow = false;
-  tile.rotation.x = DEGREES_90;
-  tile.position.set(position.x * multiplier, 1, position.z * multiplier);
+  tile.rotation.y = DEGREES_90 * 0.5;
+  tile.position.set(
+    position.x * multiplier + 28,
+    15,
+    position.z * multiplier + 6
+  );
 
   scene.add(tile);
 
@@ -110,7 +116,7 @@ export const processEndOfTurn = currentState => {
     if (currentState.turn == 2) {
       dispatch(addEventMessage("A zombie horde is advancing!! 😱"));
 
-      const position = { x: -1, z: -3 };
+      const position = { x: -1, z: -4 };
       createZombieTile(currentState.scene, position);
       dispatch(createZombieHorde(position));
     }
