@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { flatten } from "ramda";
 
 import { combineReducers } from "redux";
@@ -14,11 +15,17 @@ import displayConquerForm from "./displayConquerForm";
 import foodAmount from "./foodAmount";
 import missions from "./missions";
 import people from "./people";
+import scene from "./scene";
 import selectedTile from "./selectedTile";
 import tiles from "./tiles";
 import turn from "./turn";
 import ui from "./ui";
 import zombieHordes from "./zombieHordes";
+
+import { createOutlineTile } from "../models";
+
+const DEGREES_90 = 1.5708;
+const COLOR_RED = 0xff0000;
 
 // main reducer
 const reducer = combineReducers({
@@ -26,12 +33,35 @@ const reducer = combineReducers({
   foodAmount,
   missions,
   people,
+  scene,
   selectedTile,
   tiles,
   turn,
   ui,
   zombieHordes
 });
+
+const createZombieTile = (scene, position) => {
+  const geometry = createOutlineTile();
+  const multiplier = 23.4;
+
+  const material = new THREE.MeshBasicMaterial({
+    color: COLOR_RED,
+    opacity: 0.5,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  const tile = new THREE.Mesh(geometry, material);
+  tile.castShadow = false;
+  tile.receiveShadow = false;
+  tile.rotation.x = DEGREES_90;
+  tile.position.set(position.x * multiplier, 1, position.z * multiplier);
+
+  scene.add(tile);
+
+  return tile;
+};
 
 // thunks
 export const processEndOfTurn = currentState => {
@@ -76,15 +106,16 @@ export const processEndOfTurn = currentState => {
         )
       );
 
-    // Create zombie horde
+    // Create zombie horde, hardcoded to happen on turn 2
     if (currentState.turn == 2) {
       dispatch(addEventMessage("A zombie horde is advancing!! 😱"));
 
-      const position = { x: -1, y: -3 };
+      const position = { x: -1, z: -3 };
+      createZombieTile(currentState.scene, position);
       dispatch(createZombieHorde(position));
     }
 
-    // Handle zombie horde's movement
+    // TODO Handle zombie horde's movement
   };
 };
 

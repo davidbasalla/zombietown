@@ -41,6 +41,7 @@ export default class Game {
       people: [...people],
       missions: [],
       displayConquerForm: false,
+      scene: this.scene,
       ui: {
         conquerFormState: {
           selectedPeople: [],
@@ -255,8 +256,6 @@ export default class Game {
     filteredCoords.push([0, -1, "3", true]); //supermarket
     filteredCoords.push([-1, 0, "5", true]); //gasStation
     filteredCoords.push([-1, -1, "1", true]); //tallResidential
-
-    const visibleTiles = [];
 
     filteredCoords.forEach((coord, index) => {
       const x = coord[0];
