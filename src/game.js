@@ -7,12 +7,13 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import rootReducer from "./reducers";
+import rootReducer, { processSelectTile } from "./reducers";
 import { addTiles, selectTile, updateMaxPopulation } from "./actions";
 
 import srcModelsDefs from "./srcModelsDefs.js";
 import people from "./people";
 import gridTiles from "./gridTiles";
+import { createOutlineTile } from "./models";
 import MenuContainer from "./ReactComponents/MenuContainer";
 
 const COLOR_GREEN = 0x00ff00;
@@ -306,45 +307,7 @@ export default class Game {
   }
 
   createDisplayTile(x, z) {
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(
-      new THREE.Vector3(0, -3, 0),
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(3, 0, 0),
-      new THREE.Vector3(3, -3, 0),
-      new THREE.Vector3(20, -3, 0),
-      new THREE.Vector3(20, 0, 0),
-      new THREE.Vector3(23, 0, 0),
-      new THREE.Vector3(23, -3, 0),
-      new THREE.Vector3(23, -20, 0),
-      new THREE.Vector3(20, -20, 0),
-      new THREE.Vector3(23, -23, 0),
-      new THREE.Vector3(20, -23, 0),
-      new THREE.Vector3(3, -23, 0),
-      new THREE.Vector3(3, -20, 0),
-      new THREE.Vector3(0, -23, 0),
-      new THREE.Vector3(0, -20, 0)
-    );
-
-    const faces = [
-      new THREE.Face3(0, 1, 2),
-      new THREE.Face3(0, 2, 3),
-      new THREE.Face3(2, 3, 4),
-      new THREE.Face3(2, 4, 5),
-      new THREE.Face3(4, 5, 7),
-      new THREE.Face3(5, 6, 7),
-      new THREE.Face3(5, 6, 8),
-      new THREE.Face3(5, 8, 9),
-      new THREE.Face3(8, 9, 10),
-      new THREE.Face3(9, 10, 11),
-      new THREE.Face3(9, 11, 12),
-      new THREE.Face3(9, 12, 13),
-      new THREE.Face3(12, 13, 14),
-      new THREE.Face3(13, 14, 15),
-      new THREE.Face3(0, 13, 15),
-      new THREE.Face3(0, 3, 13)
-    ];
-    faces.forEach(x => geometry.faces.push(x));
+    const geometry = createOutlineTile();
 
     const material = new THREE.MeshBasicMaterial({
       color: COLOR_GREEN,
@@ -446,16 +409,7 @@ export default class Game {
       intersects[0].object.material.color.setHex(Math.random() * COLOR_WHITE);
       const gridTile = tiles.find(x => x.tile == intersects[0].object);
 
-      this.store.dispatch(selectTile(gridTile));
-
-      tiles.forEach(x => (x.displayTile.material.opacity = 0));
-
-      // this seems like it should be side effect of the selectTile action
-      // Try updating that first
-      // Second, try just havig one displayTile instead of multiple (should be more performant)
-      // Third, adapt this mechanism for the zombie horde
-      gridTile.displayTile.material.opacity = 0.5;
-
+      this.store.dispatch(processSelectTile(tiles, gridTile));
       this.renderMenu();
     }
   }

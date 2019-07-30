@@ -6,6 +6,7 @@ import {
   addEventMessage,
   addPerson,
   createZombieHorde,
+  selectTile,
   updateFoodAmount
 } from "../actions";
 
@@ -32,7 +33,7 @@ const reducer = combineReducers({
   zombieHordes
 });
 
-// thunk
+// thunks
 export const processEndOfTurn = currentState => {
   return (dispatch, getState) => {
     // Add event messages for taken tiles
@@ -75,12 +76,26 @@ export const processEndOfTurn = currentState => {
         )
       );
 
+    // Create zombie horde
     if (currentState.turn == 2) {
-      console.log("TRIGGER THE ZOMBIE HORDE");
+      dispatch(addEventMessage("A zombie horde is advancing!! 😱"));
 
-      const position = [3, 3];
+      const position = { x: -1, y: -3 };
       dispatch(createZombieHorde(position));
     }
+
+    // Handle zombie horde's movement
+  };
+};
+
+export const processSelectTile = (tiles, tile) => {
+  return (dispatch, getState) => {
+    // Side effects for tile selection
+    // TODO There should only be one select tile instead of one for each tile
+    tiles.forEach(x => (x.displayTile.material.opacity = 0));
+    tile.displayTile.material.opacity = 0.5;
+
+    dispatch(selectTile(tile));
   };
 };
 
