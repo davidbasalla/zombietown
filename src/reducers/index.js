@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { flatten } from "ramda";
+import { flatten, isEmpty } from "ramda";
 
 import { combineReducers } from "redux";
 
@@ -7,6 +7,7 @@ import {
   addEventMessage,
   addPerson,
   createZombieHorde,
+  moveZombieHorde,
   selectTile,
   updateFoodAmount
 } from "../actions";
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   zombieHordes
 });
 
+// TODO ThreeJS code doesn't really belong here, move somewhere else
 const createZombieTile = (scene, position) => {
   const geometry = new THREE.PlaneGeometry(7, 7, 32);
   const multiplier = 23.4;
@@ -116,12 +118,65 @@ export const processEndOfTurn = currentState => {
     if (currentState.turn == 2) {
       dispatch(addEventMessage("A zombie horde is advancing!! 😱"));
 
-      const position = { x: -1, z: -4 };
-      createZombieTile(currentState.scene, position);
-      dispatch(createZombieHorde(position));
+      const position = { x: -2, z: -4 };
+      const geo = createZombieTile(currentState.scene, position);
+      dispatch(createZombieHorde(position, geo));
     }
 
-    // TODO Handle zombie horde's movement
+    const zombieHordes = getZombieHordes(currentState);
+    if (!isEmpty(getZombieHordes(currentState))) {
+      console.log("HANDLE ZOMBIE MOVEMENT");
+      // find nearest taken tile
+      const takenTiles = currentState.tiles.filter(tile => tile.taken);
+
+      zombieHordes.forEach((horde, index) => {
+        const reducer = (accumulator, currentValue) => {
+          // accumulator is the current closest tile
+          // currentValue is the tile under test
+          const currentClosestDistX = horde.position.x - accumulator.position.x;
+          const currentClosestDistZ = horde.position.z - accumulator.position.z;
+          const currentClosestDist =
+            Math.abs(currentClosestDistX) + Math.abs(currentClosestDistZ);
+
+          const currentDistX = horde.position.x - currentValue.position.x;
+          const currentDistZ = horde.position.z - currentValue.position.z;
+          const currentDist = Math.abs(currentDistX) + Math.abs(currentDistZ);
+
+          return currentDist < currentClosestDist ? currentValue : accumulator;
+        };
+
+        const closestTile = takenTiles.reduce(reducer);
+        console.log("CLOSEST TILE = ", closestTile);
+
+        // Calc the new position - TODO Extract to separate method
+        const xDir = horde.position.x - closestTile.position.x;
+        const zDir = horde.position.z - closestTile.position.z;
+
+        const getMove = distance => {
+          if (distance === 0) {
+            return 0;
+          }
+
+          if (distance > 0) {
+            return -1;
+          }
+
+          if (distance < 0) {
+            return 1;
+          }
+        };
+
+        const xMove = getMove(xDir);
+        const zMove = xMove === 0 ? getMove(zDir) : 0; // only calc new z if horde has not moved along x
+
+        const newPosition = {
+          x: horde.position.x + xMove,
+          z: horde.position.z + zMove
+        };
+
+        dispatch(moveZombieHorde(horde, newPosition));
+      });
+    }
   };
 };
 
@@ -205,6 +260,10 @@ export const getAvailablePeople = state => {
   return getDiscoveredPeople(state).filter(
     person => !peopleInMissionsIds.includes(person.id)
   );
+};
+
+export const getZombieHordes = state => {
+  return state.zombieHordes;
 };
 
 export default reducer;

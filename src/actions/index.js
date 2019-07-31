@@ -61,7 +61,14 @@ export const addPerson = person => ({
   person
 });
 
-export const createZombieHorde = position => ({
+export const createZombieHorde = (position, geo) => ({
   type: "CREATE_ZOMBIE_HORDE",
+  position,
+  geo
+});
+
+export const moveZombieHorde = (horde, position) => ({
+  type: "MOVE_ZOMBIE_HORDE",
+  horde,
   position
 });
