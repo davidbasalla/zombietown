@@ -5,7 +5,7 @@ const zombieHordes = (state = [], action) => {
     case "CREATE_ZOMBIE_HORDE":
       const zombieHorde = {
         position: action.position,
-        geo: action.geo
+        geos: action.geos
       };
 
       return [...state, zombieHorde];
@@ -13,10 +13,16 @@ const zombieHordes = (state = [], action) => {
       action.horde.position.x = action.position.x;
       action.horde.position.z = action.position.z;
 
-      action.horde.geo.position.set(
+      action.horde.geos[0].position.set(
         action.position.x * multiplier + 28,
         15,
         action.position.z * multiplier + 6
+      );
+
+      action.horde.geos[1].position.set(
+        action.position.x * multiplier + multiplier / 2,
+        0,
+        action.position.z * multiplier - multiplier / 2
       );
 
       return state;

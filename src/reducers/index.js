@@ -68,7 +68,23 @@ const createZombieTile = (scene, position) => {
 
   scene.add(tile);
 
-  return tile;
+  var cGeometry = new THREE.BoxGeometry(20, 19, 20);
+  var cMaterial = new THREE.MeshStandardMaterial({
+    color: 0xff0000,
+    opacity: 0.5,
+    transparent: true
+  });
+  var cube = new THREE.Mesh(cGeometry, cMaterial);
+
+  cube.position.set(
+    position.x * multiplier + multiplier / 2,
+    0,
+    position.z * multiplier - multiplier / 2
+  );
+
+  scene.add(cube);
+
+  return [tile, cube];
 };
 
 // thunks
@@ -119,8 +135,8 @@ export const processEndOfTurn = currentState => {
       dispatch(addEventMessage("A zombie horde is advancing!! 😱"));
 
       const position = { x: -2, z: -4 };
-      const geo = createZombieTile(currentState.scene, position);
-      dispatch(createZombieHorde(position, geo));
+      const geos = createZombieTile(currentState.scene, position);
+      dispatch(createZombieHorde(position, geos));
     }
 
     const zombieHordes = getZombieHordes(currentState);
