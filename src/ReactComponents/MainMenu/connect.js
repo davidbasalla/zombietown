@@ -46,6 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const updatedDispatchProps = {
     ...dispatchProps,
+    // NOTE should the endTurnActionOnly be inside processEndOfTurn?
     endTurnAction: activeMissions =>
       dispatchProps.endTurnActionOnly(activeMissions) &&
       dispatchProps.processEndOfTurn(stateProps.state)

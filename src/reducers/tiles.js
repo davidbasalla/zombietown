@@ -43,6 +43,18 @@ const tiles = (state = [], action) => {
       });
 
       return tiles;
+
+    case "CONQUER_TILE":
+      const updatedTile = {
+        ...action.tile,
+        hourglassIcon: action.hourglassIcon
+      };
+
+      const unchangedTiles = action.tiles.filter(
+        tile => tile.id !== updatedTile.id
+      );
+      return [...unchangedTiles, updatedTile];
+
     case "END_TURN":
       const conqueringMissions = action.activeMissions.filter(
         m => m.turnCounter == 1

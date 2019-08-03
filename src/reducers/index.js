@@ -6,6 +6,7 @@ import { combineReducers } from "redux";
 import {
   addEventMessage,
   addPerson,
+  conquer,
   createZombieHorde,
   moveZombieHorde,
   selectTile,
@@ -56,40 +57,75 @@ const createZombieTile = (scene, position) => {
     "../assets/icons/zombie_128x128.png"
   );
 
-  const tile = new THREE.Mesh(geometry, material);
-  tile.castShadow = false;
-  tile.receiveShadow = false;
-  tile.rotation.y = DEGREES_90 * 0.5;
-  tile.position.set(
+  const iconTile = new THREE.Mesh(geometry, material);
+  iconTile.castShadow = false;
+  iconTile.receiveShadow = false;
+  iconTile.rotation.y = DEGREES_90 * 0.5;
+  iconTile.position.set(
     position.x * multiplier + 28,
     15,
     position.z * multiplier + 6
   );
 
-  scene.add(tile);
+  scene.add(iconTile);
 
-  var cGeometry = new THREE.BoxGeometry(20, 19, 20);
-  var cMaterial = new THREE.MeshStandardMaterial({
+  var redTileGeo = createOutlineTile();
+  var redTileMat = new THREE.MeshBasicMaterial({
     color: 0xff0000,
+    side: THREE.DoubleSide,
     opacity: 0.5,
     transparent: true
   });
-  var cube = new THREE.Mesh(cGeometry, cMaterial);
+  var redTile = new THREE.Mesh(redTileGeo, redTileMat);
 
-  cube.position.set(
-    position.x * multiplier + multiplier / 2,
-    0,
-    position.z * multiplier - multiplier / 2
+  redTile.castShadow = false;
+  redTile.receiveShadow = false;
+  redTile.rotation.x = DEGREES_90;
+  redTile.position.set(
+    position.x * multiplier + 0.5,
+    0.6,
+    position.z * multiplier + 1
   );
 
-  scene.add(cube);
+  scene.add(redTile);
 
-  return [tile, cube];
+  return [iconTile, redTile];
+};
+
+// TODO ThreeJS code doesn't really belong here, move somewhere else
+const createHourglassTile = (scene, position) => {
+  const geometry = new THREE.PlaneGeometry(7, 7, 32);
+  const multiplier = 23.4;
+
+  const material = new THREE.MeshBasicMaterial({
+    opacity: 1,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  material.map = new THREE.TextureLoader().load(
+    "../assets/icons/hourglass_128x128.png"
+  );
+
+  const iconTile = new THREE.Mesh(geometry, material);
+  iconTile.castShadow = false;
+  iconTile.receiveShadow = false;
+  iconTile.rotation.y = DEGREES_90 * 0.5;
+  iconTile.position.set(
+    position.x * multiplier + 28,
+    15,
+    position.z * multiplier + 6
+  );
+
+  scene.add(iconTile);
+
+  return iconTile;
 };
 
 // thunks
 export const processEndOfTurn = currentState => {
+  // NOTE is currentState needed if we have getState? Redux question
   return (dispatch, getState) => {
+    // PROCESS TAKEN TILES
     // Add event messages for taken tiles
     const oldTakenTiles = currentState.tiles.filter(tile => tile.taken);
     const oldTakenTilesIds = oldTakenTiles.map(t => t.id);
@@ -102,6 +138,8 @@ export const processEndOfTurn = currentState => {
     tilesToAdd.forEach(tile => {
       const message = `${tile.displayName} was conquered`;
       const messages = [message];
+
+      // TODO Remove the hour glass icon
 
       // Add a person
       const undiscoveredPeople = getUndiscoveredPeople(currentState);
@@ -204,6 +242,20 @@ export const processSelectTile = (tiles, tile) => {
     tile.displayTile.material.opacity = 0.5;
 
     dispatch(selectTile(tile));
+  };
+};
+
+export const processInitiateConquer = (tile, people, conquerCounter) => {
+  return (dispatch, getState) => {
+    const position = {
+      x: tile.position.x,
+      z: tile.position.z
+    };
+    const hourglassIcon = createHourglassTile(getState().scene, position);
+
+    return dispatch(
+      conquer(tile, people, conquerCounter, getState().tiles, hourglassIcon)
+    );
   };
 };
 

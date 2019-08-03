@@ -5,7 +5,7 @@ import {
   setConquerFormError,
   toggleForm
 } from "../../actions";
-import { getDiscoveredPeople } from "../../reducers";
+import { getDiscoveredPeople, processInitiateConquer } from "../../reducers";
 
 const getSelectedPeople = state => {
   const selectedPeopleIds = state.ui.conquerFormState.selectedPeople;
@@ -31,6 +31,7 @@ const mapStateToProps = state => {
     conquerCounter: state.selectedTile.conquerCounter,
     display: state.displayConquerForm,
     error: state.ui.conquerFormState.error,
+    scene: state.scene,
     selectedTile: state.selectedTile,
     selectedPeople: people,
     successProbability: getSuccessPropability(people)
@@ -46,7 +47,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         return (
           dispatch(setConquerFormError(undefined)) &&
           dispatch(clearSelectedPeople()) &&
-          dispatch(conquer(tile, people, conquerCounter)) &&
+          dispatch(processInitiateConquer(tile, people, conquerCounter)) &&
           dispatch(toggleForm())
         );
       }

@@ -13,16 +13,19 @@ const zombieHordes = (state = [], action) => {
       action.horde.position.x = action.position.x;
       action.horde.position.z = action.position.z;
 
-      action.horde.geos[0].position.set(
+      const iconTile = action.horde.geos[0];
+      const redTile = action.horde.geos[1];
+
+      iconTile.position.set(
         action.position.x * multiplier + 28,
         15,
         action.position.z * multiplier + 6
       );
 
-      action.horde.geos[1].position.set(
-        action.position.x * multiplier + multiplier / 2,
-        0,
-        action.position.z * multiplier - multiplier / 2
+      redTile.position.set(
+        action.position.x * multiplier + 0.5,
+        0.6,
+        action.position.z * multiplier + 1
       );
 
       return state;
