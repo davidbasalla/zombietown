@@ -29,6 +29,12 @@ const zombieHordes = (state = [], action) => {
       );
 
       return state;
+    case "REMOVE_ZOMBIE_HORDE":
+      const filteredZombieHordes = state.filter(
+        horde => horde !== action.horde
+      );
+
+      return [filteredZombieHordes];
     default:
       return state;
   }

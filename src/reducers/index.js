@@ -10,6 +10,7 @@ import {
   createZombieHorde,
   endTurn,
   moveZombieHorde,
+  removeZombieHorde,
   selectTile,
   updateFoodAmount
 } from "../actions";
@@ -212,7 +213,6 @@ export const processEndOfTurn = currentState => {
         };
 
         const closestTile = takenTiles.reduce(reducer);
-        console.log("CLOSEST TILE = ", closestTile);
 
         // Calc the new position - TODO Extract to separate method
         const xDir = horde.position.x - closestTile.position.x;
@@ -241,6 +241,26 @@ export const processEndOfTurn = currentState => {
         };
 
         dispatch(moveZombieHorde(horde, newPosition));
+
+        // PROCESS ZOMBIE FIGHT //////////////////////////////////////////////////
+        const zombiesAboutToArrive = Math.abs(xDir) <= 1 && Math.abs(zDir) <= 1;
+        if (zombiesAboutToArrive) {
+          const calcFight = () =>
+            // TODO - to be replaced by some sort of algorithm
+            ({ victory: true });
+
+          const result = calcFight();
+
+          if (result.victory) {
+            horde.geos.forEach(geo => currentState.scene.remove(geo));
+            dispatch(removeZombieHorde(horde));
+          } else {
+            // TODO set the tile back to unconquered
+          }
+
+          const outcome = result.victory ? "You won!" : "You lost!";
+          dispatch(addEventMessage(`ZOMBIE FIGHT!!! ${outcome}`));
+        }
       });
     }
   };

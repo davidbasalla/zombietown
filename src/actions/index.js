@@ -81,3 +81,8 @@ export const moveZombieHorde = (horde, position) => ({
   horde,
   position
 });
+
+export const removeZombieHorde = horde => ({
+  type: "REMOVE_ZOMBIE_HORDE",
+  horde
+});
