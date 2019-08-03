@@ -11,6 +11,7 @@ import {
   endTurn,
   moveZombieHorde,
   removeZombieHorde,
+  loseTile,
   selectTile,
   updateFoodAmount
 } from "../actions";
@@ -31,6 +32,7 @@ import resourceTypes from "../constants/resourceTypes";
 
 const DEGREES_90 = 1.5708;
 const COLOR_RED = 0xff0000;
+const COLOR_GREY_DARK = 0x404040;
 
 // main reducer
 const reducer = combineReducers({
@@ -247,7 +249,7 @@ export const processEndOfTurn = currentState => {
         if (zombiesAboutToArrive) {
           const calcFight = () =>
             // TODO - to be replaced by some sort of algorithm
-            ({ victory: true });
+            ({ victory: false });
 
           const result = calcFight();
 
@@ -256,6 +258,14 @@ export const processEndOfTurn = currentState => {
             dispatch(removeZombieHorde(horde));
           } else {
             // TODO set the tile back to unconquered
+
+            closestTile.assets.forEach(asset => {
+              asset.material.color.set(COLOR_GREY_DARK);
+            });
+            dispatch(loseTile(closestTile, currentState.tiles));
+
+            horde.geos.forEach(geo => currentState.scene.remove(geo));
+            dispatch(removeZombieHorde(horde));
           }
 
           const outcome = result.victory ? "You won!" : "You lost!";

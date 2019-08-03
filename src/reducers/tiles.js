@@ -57,6 +57,31 @@ const tiles = (state = [], action) => {
       );
       return [...unchangedTiles, updatedTile];
 
+    case "LOSE_TILE":
+      const tileToLose = {
+        ...action.tile,
+        taken: false
+      };
+
+      const remaingingTiles = action.tiles.filter(
+        tile => tile.id !== tileToLose.id
+      );
+
+      // UPDATE FOG OF WAR
+      // TODO - Refactor the code as it's duplicate
+      const updatedTilesX = [...remaingingTiles, tileToLose];
+      const tilesWithVisX = updatedTilesX.map(tile => {
+        const visible = isVisible(tile, updatedTilesX);
+        const opac = visible ? 0.0 : 0.75;
+        tile.fogTile.material.opacity = opac;
+
+        return {
+          ...tile,
+          visible: visible
+        };
+      });
+      return tilesWithVisX;
+
     case "END_TURN":
       const conqueringMissions = action.activeMissions.filter(
         m => m.turnCounter == 1

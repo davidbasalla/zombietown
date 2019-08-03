@@ -9,6 +9,12 @@ export const selectTile = tileName => ({
   tileName
 });
 
+export const loseTile = (tile, tiles) => ({
+  type: "LOSE_TILE",
+  tile,
+  tiles
+});
+
 export const addTiles = tiles => ({
   type: "ADD_TILES",
   tiles
