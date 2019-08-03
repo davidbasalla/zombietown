@@ -26,6 +26,7 @@ import ui from "./ui";
 import zombieHordes from "./zombieHordes";
 
 import { createOutlineTile } from "../models";
+import resourceTypes from "../constants/resourceTypes";
 
 const DEGREES_90 = 1.5708;
 const COLOR_RED = 0xff0000;
@@ -141,6 +142,15 @@ export const processEndOfTurn = currentState => {
     tilesToAdd.forEach(tile => {
       const message = `${tile.displayName} was conquered`;
       const messages = [message];
+
+      tile.resourceAttributes &&
+        Object.keys(tile.resourceAttributes).forEach(key => {
+          messages.push(
+            `You have gained ${tile.resourceAttributes[key]} ${resourceTypes[
+              key
+            ].toLowerCase()}`
+          );
+        });
 
       // Add a person
       const undiscoveredPeople = getUndiscoveredPeople(currentState);
