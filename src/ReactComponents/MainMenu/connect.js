@@ -9,7 +9,7 @@ import {
 
 const mapStateToProps = state => {
   const missionForSelectedTile = getActiveMissions(state).find(
-    mission => state.selectedTile == mission.tile
+    mission => state.selectedTile.id == mission.tile.id
   );
 
   const foodGrowthValue = getFoodGrowth(state);
@@ -30,14 +30,14 @@ const mapStateToProps = state => {
       !missionForSelectedTile &&
       state.selectedTile.visible,
     displayConquerForm: state.displayConquerForm,
-    activeMissions: getActiveMissions(state),
+    // activeMissions: getActiveMissions(state),
     state: state
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    endTurnActionOnly: activeMissions => dispatch(endTurn(activeMissions)),
+    // endTurnActionOnly: activeMissions => dispatch(endTurn(activeMissions)),
     processEndOfTurn: state => dispatch(processEndOfTurn(state)),
     toggleFormAction: () => dispatch(toggleForm())
   };
@@ -48,7 +48,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     // NOTE should the endTurnActionOnly be inside processEndOfTurn?
     endTurnAction: activeMissions =>
-      dispatchProps.endTurnActionOnly(activeMissions) &&
+      // dispatchProps.endTurnActionOnly(activeMissions) &&
       dispatchProps.processEndOfTurn(stateProps.state)
   };
 

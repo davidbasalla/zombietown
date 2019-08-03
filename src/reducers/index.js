@@ -8,6 +8,7 @@ import {
   addPerson,
   conquer,
   createZombieHorde,
+  endTurn,
   moveZombieHorde,
   selectTile,
   updateFoodAmount
@@ -125,7 +126,9 @@ const createHourglassTile = (scene, position) => {
 export const processEndOfTurn = currentState => {
   // NOTE is currentState needed if we have getState? Redux question
   return (dispatch, getState) => {
-    // PROCESS TAKEN TILES
+    dispatch(endTurn(getActiveMissions(getState()), getState().scene));
+
+    // PROCESS TAKEN TILES /////////////////////////////////////////////////////////
     // Add event messages for taken tiles
     const oldTakenTiles = currentState.tiles.filter(tile => tile.taken);
     const oldTakenTilesIds = oldTakenTiles.map(t => t.id);
@@ -138,8 +141,6 @@ export const processEndOfTurn = currentState => {
     tilesToAdd.forEach(tile => {
       const message = `${tile.displayName} was conquered`;
       const messages = [message];
-
-      // TODO Remove the hour glass icon
 
       // Add a person
       const undiscoveredPeople = getUndiscoveredPeople(currentState);
@@ -155,7 +156,8 @@ export const processEndOfTurn = currentState => {
       dispatch(addEventMessage(messages.join(". ")));
     });
 
-    // Update the food amount
+    // PROCESS FOOD AMOUNT /////////////////////////////////////////////////////////
+
     // ...use currentState rather than getState as we only want to apply
     // the food growth _next_ turn
     const amount = getFoodGrowth(currentState);

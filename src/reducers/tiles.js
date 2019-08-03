@@ -1,3 +1,5 @@
+import { omit } from "ramda";
+
 const isVisible = (tile, tiles) => {
   if (tile.taken == true) return true;
 
@@ -60,9 +62,14 @@ const tiles = (state = [], action) => {
         m => m.turnCounter == 1
       );
       if (conqueringMissions.length > 0) {
-        const tilesToBeConquered = conqueringMissions.map(m => m.tile);
+        // TODO should only store a tile id and not the whole tile object in activeMissions
+        // because of problems with the tile object changing in other redux actions...
+        const tileIds = conqueringMissions.map(m => m.tile.id);
+        const tilesToBeConquered = tileIds.map(tId =>
+          state.find(t => t.id === tId)
+        );
         const tilesToBeLeftAlone = state.filter(tile => {
-          return tilesToBeConquered.indexOf(tile) == -1;
+          return tilesToBeConquered.map(t => t.id).indexOf(tile.id) == -1;
         });
 
         const conqueredTiles = tilesToBeConquered.map(tile => {
@@ -70,8 +77,14 @@ const tiles = (state = [], action) => {
             asset.material.color.set(0xffffff);
           });
 
+          // Remove the hour glass icon object from the render scene
+          tile.hourglassIcon && action.scene.remove(tile.hourglassIcon);
+
+          // Remove the hour glass icon object from Redux state
+          const tileWithoutHourGlass = omit(["hourglassIcon"], tile);
+
           return {
-            ...tile,
+            ...tileWithoutHourGlass,
             taken: true
           };
         });
